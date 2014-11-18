@@ -1,0 +1,59 @@
+body {
+  padding-top: 50px;
+  /*background: url('../images/blu1.jpg');*/
+  background-size: 1920 1200px;
+/*  background-repeat:no-repeat;*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+/* Overwriting bootstrap madness */
+.form-horizontal .form-group {
+ margin-left: 0 !important; 
+ margin-right: 0 !important; 
+}
+
+a {
+  color: #00B7FF;
+}
+
+.pill{
+	margin-right: 10px;
+	margin-bottom: 10px;
+	display: inline-block;
+}
+
+.pill .btn1{
+	border-color: #515F67;
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+
+	background-color: #354E62;
+	color: #FFF;
+}
+
+.pill .btn2{
+	border-color: #515F67;
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	margin-left: -1px;
+
+	background-color: #aad7f2;
+	color: #000;
+	
+}
+
+.logo{
+	max-width: 220px;
+	margin-top: -45px;
+}
+
+.searchbtn{
+	background-color: #26BDFF;
+	width: 100%;
+}
+
+.searchbtn.btn-default:hover, .searchbtn.btn-default:focus, .searchbtn.btn-default:active, .searchbtn.btn-default.active, .open>.dropdown-toggle.btn-default {
+	color: #ffffff;
+	background-color: #33AADD;
+	border-color: #111111;
+}

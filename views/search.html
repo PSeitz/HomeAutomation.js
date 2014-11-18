@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+	<div class="jumbotron">
+
+		<span class="pill">
+			<button class="btn1 btn btn-primary" type="button">
+			  	System
+			</button>
+			<button class="btn2 btn btn-primary" type="button">
+			  	{{=it.system}} 
+			</button>
+		</span>
+
+		<span class="pill">
+			<button class="btn1 btn btn-primary" type="button">
+			  	Searchterm
+			</button>
+			<button class="btn2 btn btn-primary" type="button">
+			  	{{=it.searchterm}}
+			</button>
+		</span>
+
+		<h4> Click to download:</h4>
+		<div class="list-group" >
+			{{? it.searchResults.length > 0}}
+				{{~it.searchResults :game:index}}
+				<a href='/download/{{=it.system}}/{{=game.id}}/{{=game.name}}' class="list-group-item">
+					{{=game.name}}
+				</a>
+				{{~}}
+			{{??}}
+				<p>No Games Found! Sorry :P</p> 
+			{{?}}
+		</div>
+	</div>
+</div>

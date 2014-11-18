@@ -1,0 +1,12 @@
+<div class="container-fluid">
+
+	{{~it.services :service:index}}
+		<option value="{{=service.plugin_name}}">{{=service.name}}</option>
+	{{~}}
+	
+
+	{{~it.test :t:index}}
+		<option value="{{=t}}">{{=t}}</option>
+	{{~}}
+	
+</div><!-- /.container-fluid -->
