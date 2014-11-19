@@ -1,7 +1,30 @@
 var _=require('lodash');
+var controlLights = require("./controllights");
 
 var Plugins = function (){
 };
+
+// var all = [{
+// 	plugin_name : "Wol",
+// 	services : [{
+// 		name: "Nas On",
+// 		homescreen: 2,
+// 		type:"toggle"
+// 	}]
+// },
+// {
+// 	plugin_name : "Lights",
+// 	services : [{
+// 		name: "All On",
+// 		homescreen: 0,
+// 		type:"toggle"
+// 	},
+// 	{
+// 		name: "All Off",
+// 		homescreen: 1,
+// 		type:"toggle"
+// 	}]
+// }];
 
 var all = [{
 	plugin_name : "Wol",
@@ -13,25 +36,13 @@ var all = [{
 },
 {
 	plugin_name : "Lights",
-	services : [{
-		name: "All On",
-		homescreen: 0,
-		type:"toggle"
-	}, 
-	{
-		name: "All Off",
-		homescreen: 1,
-		type:"toggle"
-	}]
+	services : controlLights.services()
 }];
-
-
 
 
 Plugins.prototype.getAll = function () {
 	return all;
 };
-
 
 Plugins.prototype.getAllServices = function () {
 	var allPlugins = this.getAll();
@@ -40,9 +51,10 @@ Plugins.prototype.getAllServices = function () {
 		
 		var pluginservices = allPlugins[i].services;
 
-		_(pluginservices).forEach(function(service) { 
+		_(pluginservices).forEach(function(service) {
 			service.plugin_name = allPlugins[i].plugin_name;
 			service.service_id = service.plugin_name+service.name;
+			service.service_id = service.service_id.replace(/\s/g,'');
 		});
 
 		allServices = _.union(allServices, pluginservices);

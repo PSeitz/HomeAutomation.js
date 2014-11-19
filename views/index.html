@@ -1,12 +1,7 @@
 <div class="container-fluid">
 
 	{{~it.services :service:index}}
-		<option value="{{=service.plugin_name}}">{{=service.name}}</option>
-	{{~}}
-	
-
-	{{~it.test :t:index}}
-		<option value="{{=t}}">{{=t}}</option>
+        <button type="button" onclick="sendRequest('{{=service.service_id}}')" class="btn btn-primary">{{=service.name}}</button>
 	{{~}}
 	
 </div><!-- /.container-fluid -->
