@@ -16,7 +16,6 @@ var controlLights = function(result, lightstate, matching) {
                 // displayResult(result);
                 console.log('light set');
             });
-
         }
     }
 
@@ -32,7 +31,6 @@ var matches = function(lightName, matches ){
     }else{
         return lightName.name.indexOf(matches) !== -1;
     }
-
 };
 
 var allLamps = ["WZ Links", "WZ Rechts", "WZ Back", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten" ];
@@ -51,7 +49,7 @@ var displayError = function(err) {
 };
 
 exports.wakeUp = function(){
-    controlLights(hueLights, {"transitiontime": 600, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["SZ", "Flur", "WZ"]);
+    controlLights(hueLights, {"transitiontime": 600, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["SZ", "Flur"]);
 };
 
 exports.allOn = function(){
@@ -60,12 +58,11 @@ exports.allOn = function(){
 };
 
 exports.allOff = function(){
-    controlLights(hueLights, {"on": false}, allLamps);
+    controlLights(hueLights, {"transitiontime": 1,"on": false}, allLamps);
 };
 
 exports.only = function(onLamps){
     var off = _.difference(allLamps, onLamps);
-    console.log(off);
     controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254, "hue": 15760, "saturation":93}, onLamps);
     controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
@@ -94,17 +91,21 @@ exports.services = function(){
         name: "All Off",
         homescreen: 0
     },{
+        action : exports.allOn,
+        name: "All On",
+        homescreen: 5
+    },{
         action : exports.wohnzimmerOnly,
-        name: "Couchroom",
-        homescreen: 1
+        name: "Wohnzimmer",
+        homescreen: 2
     },{
         action : exports.schlafzimmerOnly,
         name: "Schlafzimmer",
-        homescreen: 2
+        homescreen: 4
     },{
         action : exports.arbeitszimmerOnly,
         name: "Arbeitszimmer",
-        homescreen: 3
+        homescreen: 1
     }];
 };
 

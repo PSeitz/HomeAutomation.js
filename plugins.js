@@ -1,5 +1,6 @@
 var _=require('lodash');
-var controlLights = require("./controllights");
+var controlLights = require("./plugins/controllights");
+var wol = require("./plugins/wol");
 
 var Plugins = function (){
 };
@@ -28,11 +29,7 @@ var Plugins = function (){
 
 var all = [{
 	plugin_name : "Wol",
-	services : [{
-		name: "Nas On",
-		homescreen: 2,
-		type:"toggle"
-	}]
+	services : wol.services()
 },
 {
 	plugin_name : "Lights",

@@ -17,3 +17,10 @@ function sendRequest(url, onsuccess, onerror) {
 
     request.send();
 }
+
+
+if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+}

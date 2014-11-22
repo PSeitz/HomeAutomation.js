@@ -1,7 +1,12 @@
 <div class="container-fluid">
+    
+    <div class="list-group">
+    {{~it.services :service:index}}
+        <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="list-group-item">
+            {{=service.name}}
+        </a>
 
-	{{~it.services :service:index}}
-        <button type="button" onclick="sendRequest('{{=service.service_id}}')" class="btn btn-primary">{{=service.name}}</button>
-	{{~}}
-	
+    {{~}}
+    </div>
+
 </div><!-- /.container-fluid -->

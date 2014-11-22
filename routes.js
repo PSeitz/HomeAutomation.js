@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var path = require("path");
 
 var plugins = require('./plugins');
 
 router.get('/', function(req, res) {
-
 	var homeservices = plugins.getHome();
 	for (var i = 0; i < homeservices.length; i++) {
 		console.log(homeservices[i]);
@@ -25,7 +23,6 @@ allServices.forEach(function logArrayElements(element, index, array) {
 		if (element.action) element.action();
 	});
 });
-
 
 router.get("/download/:system/:id/:name", function(req, res) {
 	var id = req.params.id;

@@ -2,14 +2,15 @@
 	<head>
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>{{=it.title}}</title>
 		<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <!-- <link href="/css/style.css" rel="stylesheet"/> -->
 	</head>
 	<body>
 		<div class="navbar navbar-default" role="navigation">
-			<div class="container-fluid">
-				<div class="collapse navbar-collapse">
+			<div class="container-fluid" >
+				<div class="collapse navbar-toggle">
 					<ul class="nav navbar-nav">
 						<li><a href="/">Home</a></li>
 						<li><a href="/plugins">Plugins</a></li>
@@ -20,6 +21,9 @@
 		</div>
 
 		{{=it.body}}
-		<script src="/js/main.js"></script>
+		<!-- <script src="/js/jquery-2.1.1.min.js"></script> -->
+        <script src="/js/fastclick.min.js"></script>
+        <!-- <script src="/bootstrap/js/bootstrap.min.js"></script> -->
+        <script src="/js/main.js"></script>
 	</body>
 </html>
