@@ -1,3 +1,32 @@
 .list-buffer {
   margin-bottom: 15px;
 }
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+ol.sortablelist li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.sortablelist li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}
+
+
+
+input[type=checkbox] {
+  /* All browsers except webkit*/
+  transform: scale(2);
+
+  /* Webkit browsers*/
+  -webkit-transform: scale(2);
+}

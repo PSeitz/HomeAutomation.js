@@ -11,18 +11,9 @@ exports.wakeHTPC = function(){
     wol.wake(htpc);
 };
 
-if (process.argv[2]) {
-    var method = process.argv[2];
-    if (true) {};
-    exports[method]();
-}else{
-  console.log("Choose on of these options");
-  for (var method in exports) {
-    if (typeof exports[method] === 'function'){
-      console.log(method);
-    } 
-  }
-}
+exports.getName = function(){
+    return "WOL";
+};
 
 exports.services = function(){
     return [{

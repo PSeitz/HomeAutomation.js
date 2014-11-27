@@ -84,28 +84,26 @@ exports.lightUp = function(){
     controlLights(hueLights, {"transitiontime": 60, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["AZ", "Flur", "WZ"]);
 };
 
+exports.getName = function(){
+    return "Lights";
+};
 
 exports.services = function(){
     return [{
         action : exports.allOff,
-        name: "All Off",
-        homescreen: 0
+        name: "All Off"
     },{
         action : exports.allOn,
-        name: "All On",
-        homescreen: 5
+        name: "All On"
     },{
         action : exports.wohnzimmerOnly,
-        name: "Wohnzimmer",
-        homescreen: 2
+        name: "Wohnzimmer"
     },{
         action : exports.schlafzimmerOnly,
-        name: "Schlafzimmer",
-        homescreen: 4
+        name: "Schlafzimmer"
     },{
         action : exports.arbeitszimmerOnly,
-        name: "Arbeitszimmer",
-        homescreen: 1
+        name: "Arbeitszimmer"
     }];
 };
 

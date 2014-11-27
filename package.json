@@ -24,7 +24,8 @@
     "body-parser": "~1.0.0",
     "debug": "~0.7.4",
     "express-dot": "~0.1.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+     "wake_on_lan": "0.0.4"
   },
   "author": "Pascal Seitz <pascal.seitz@gmail.com>",
   "license": "ISC",

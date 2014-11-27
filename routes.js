@@ -14,14 +14,34 @@ router.get('/', function(req, res) {
 	});
 });
 
+/*
+*	{
+		plugin_name: aaa,
+		name: bbb,
+		service_id: aaabbb
+	}
+*
+*/
 var allServices = plugins.getAllServices();
 
-allServices.forEach(function logArrayElements(element, index, array) {
+allServices.forEach(function (element, index, array) {
 	console.log(element.service_id);
 	router.get("/"+element.service_id, function(req, res) {
 		res.send('hehehe!');
 		if (element.action) element.action();
 	});
+});
+
+
+router.get("/settings", function(req, res) {
+	res.render('settings.html', {
+		title: "HomeAutomation",
+		services: allServices
+	});
+});
+
+router.post("/newhomeorder", function(req, res) {
+	
 });
 
 router.get("/download/:system/:id/:name", function(req, res) {
