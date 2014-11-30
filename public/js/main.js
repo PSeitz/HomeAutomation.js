@@ -39,14 +39,16 @@ $(function() {
     //     }
     // });
 
-    $("input[type='checkbox']").bootstrapSwitch();
+    var checkBoxSelector = "input[type='checkbox']";
+
+    $(checkBoxSelector).bootstrapSwitch();
 
     var list = $("ol.sortablelist");
     function sendList(){
         var sortedIDs = list.sortable( "toArray" );
         console.log(sortedIDs);
         var filtered = sortedIDs.filter(function(item) {
-            return $("#"+item).find("input[type='checkbox']").prop('checked');
+            return $("#"+item).find(checkBoxSelector).prop('checked');
         });
         console.log(filtered);
         $.post("/newhomeorder", { "list": filtered});
@@ -59,14 +61,9 @@ $(function() {
         handle: ".handle"
     });
 
-    // $( "[type=checkbox]" )
-    $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+    $(checkBoxSelector).on('switchChange.bootstrapSwitch', function(event, state) {
         sendList(); 
     });
-  //   $( "input[type='checkbox']" ).change(function() {
-  // // Check input( $( this ).val() ) for validity here
-  //       console.log($( this ).prop('checked'));
-  //   });
 
 
 });
