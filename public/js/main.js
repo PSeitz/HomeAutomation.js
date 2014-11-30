@@ -1,6 +1,7 @@
-function sendRequest(url, onsuccess, onerror) {
+function sendRequest(url, type, onsuccess, onerror) {
+    type = type || 'GET';
     var request = new XMLHttpRequest();
-    request.open('GET', url, true);
+    request.open(type, url, true);
 
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
@@ -38,71 +39,34 @@ $(function() {
     //     }
     // });
 
-    // $("input").bootstrapSwitch();
+    $("input[type='checkbox']").bootstrapSwitch();
 
-    var group = $("ol.sortablelist").sortable({
-        group: 'sortablelist',
-        pullPlaceholder: false,
-        placeholder: '<li class="placeholder list-group-item">Drop it</li>',
-        // animation on drop
-        onDrop: function(item, targetContainer, _super) {
-            // var clonedItem = $('<li/>').css({
-            //     height: 0
-            // });
-            // item.before(clonedItem);
-            // clonedItem.animate({
-            //     'height': item.height()
-            // });
-
-            // item.animate(clonedItem.position(), function() {
-            //     clonedItem.detach();
-            //     _super(item);
-            // });
-
-            var data = group.sortable("serialize").get();
-            var jsonString = JSON.stringify(data, null, ' ');
-
-            var filtered = data[0].filter(function(item) {
-                return item.id;
-            });
-
-
-            var order = filtered.map(function(item) {
-                return item.id;
-            });
-            console.log(order);
-
-            // $item.removeClass("dragged").removeAttr("style");
-            // $("body").removeClass("dragging");
-            _super(item, targetContainer);
+    var list = $("ol.sortablelist");
+    function sendList(){
+        var sortedIDs = list.sortable( "toArray" );
+        console.log(sortedIDs);
+        var filtered = sortedIDs.filter(function(item) {
+            return $("#"+item).find("input[type='checkbox']").prop('checked');
+        });
+        console.log(filtered);
+        $.post("/newhomeorder", { "list": filtered});
+    }
+    
+    list.sortable({
+        stop: function( event, ui ) {
+            sendList(); 
         },
-
-        // set item relative to cursor position
-        onDragStart: function($item, container, _super) {
-            var offset = $item.offset(),
-                pointer = container.rootGroup.pointer;
-
-            adjustment = {
-                left: pointer.left - offset.left,
-                top: pointer.top - offset.top
-            };
-
-            // $item.css({
-            //     height: "80px",
-            //     width: $item.width()
-            // });
-            // $item.addClass("dragged");
-            // $("body").addClass("dragging");
-
-            _super($item, container);
-
-        },
-        onDrag: function($item, position) {
-            $item.css({
-                left: position.left - adjustment.left,
-                top: position.top - adjustment.top
-            });
-        }
+        handle: ".handle"
     });
+
+    // $( "[type=checkbox]" )
+    $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
+        sendList(); 
+    });
+  //   $( "input[type='checkbox']" ).change(function() {
+  // // Check input( $( this ).val() ) for validity here
+  //       console.log($( this ).prop('checked'));
+  //   });
+
 
 });

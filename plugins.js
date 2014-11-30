@@ -60,6 +60,7 @@ Plugins.prototype.getAllServices = function () {
         _(pluginservices).forEach(function(service) {
             service.plugin_name = allPlugins[i].plugin_name;
             service.service_id = generateServiceId(service.plugin_name,service.name);
+            service.homescreen = sorting.getPositionForServiceId(service.service_id);
         });
 
         allServices = _.union(allServices, pluginservices);
@@ -67,7 +68,6 @@ Plugins.prototype.getAllServices = function () {
     }
     return allServices;
 };
-
 
 Plugins.prototype.getHome = function () {
     var services = this.getAllServices();

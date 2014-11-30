@@ -17,17 +17,19 @@
     "js"
   ],
   "dependencies": {
-    "express": "~4.2.0",
-    "static-favicon": "~1.0.0",
-    "morgan": "~1.0.0",
-    "cookie-parser": "~1.0.1",
     "body-parser": "~1.0.0",
+    "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
+    "express": "~4.2.0",
     "express-dot": "~0.1.0",
     "lodash": "~2.4.1",
-    "wake_on_lan": "0.0.4",
+    "morgan": "~1.0.0",
+     "wake_on_lan": "0.0.4"
     "node-hue-api": "^0.2.3",
-    "yamaha-nodejs": "^0.4.0"
+    "static-favicon": "~1.0.0",
+    "wake_on_lan": "0.0.4",
+    "yamaha-nodejs": "^0.4.0",
+    "nedb": "~0.11.1"
   },
   "author": "Pascal Seitz <pascal.seitz@gmail.com>",
   "license": "ISC",

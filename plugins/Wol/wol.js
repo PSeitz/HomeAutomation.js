@@ -26,3 +26,8 @@ exports.services = function(){
         homescreen: -1
     }];
 };
+
+
+exports.settings = function(){
+    return "settings.html";
+};
