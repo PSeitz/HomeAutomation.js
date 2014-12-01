@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Magneto';
+  src: url('MAGNETOB.TTF')  format('truetype') /* Safari, Android, iOS */
+}
+
+
+
 .list-buffer {
   margin-bottom: 15px;
 }
@@ -45,7 +52,14 @@ margin-top: 4px;
 }
 
 .navbar-header .navbar-brand {
-  font-family: Magneto;
+  font-family: 'Magneto';
+  padding: 10px 15px;
+}
+
+.bigheading{
+  font-size: 34px;
+  top: 3px;
+  position: relative;
 }
 
 .smallheading{
