@@ -48,7 +48,6 @@ allPlugins.forEach(function (element, index, array) {
 	});
 });
 
-
 router.get("/settings", function(req, res) {
 	res.render('settings.html', {
 		title: "HomeAutomation",

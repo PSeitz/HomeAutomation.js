@@ -29,16 +29,7 @@ if ('addEventListener' in document) {
 
 
 $(function() {
-    // $("ol.sortablelist").sortable({
-    //     group: 'sortablelist',
-    //     onDrag: function($item, position) {
-    //         $item.css({
-    //             left: position.left - adjustment.left,
-    //             top: position.top - adjustment.top
-    //         });
-    //     }
-    // });
-
+    //Home-Settings
     var checkBoxSelector = "input[type='checkbox']";
 
     $(checkBoxSelector).bootstrapSwitch();

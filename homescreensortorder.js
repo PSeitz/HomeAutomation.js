@@ -13,7 +13,6 @@ var outputFilename = 'sortorder.json';
 // };
 
 service_position = {} ;
-
 try{
 	service_position = require('./'+outputFilename);
 }catch(e){

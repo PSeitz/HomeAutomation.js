@@ -27,7 +27,6 @@
     "wake_on_lan": "0.0.4",
     "node-hue-api": "^0.2.3",
     "static-favicon": "~1.0.0",
-    "wake_on_lan": "0.0.4",
     "yamaha-nodejs": "^0.4.0"
   },
   "author": "Pascal Seitz <pascal.seitz@gmail.com>",

@@ -25,9 +25,6 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 app.use('/', routes);
-
-// app.use("/", express.static(__dirname + '/'));
 
 app.listen(80);
