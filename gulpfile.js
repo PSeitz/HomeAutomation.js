@@ -23,7 +23,7 @@ gulp.task('buildjs', function() {
 	gulp.src([
 	'./public/js/jquery-2.1.1.min.js',
 	'./public/js/fastclick.min.js',
-	'./public/js/bootstrap/js/bootstrap.min.js',
+	'./public/bootstrap/js/bootstrap.min.js',
 	'./public/js/main.js'
 	])
 	.pipe(concat('all.js'))
