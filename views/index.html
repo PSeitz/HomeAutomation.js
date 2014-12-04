@@ -1,11 +1,8 @@
-<div class="container-fluid">
-    
-    <div class="list-group">
+
+    <div class="list">
     {{~it.services :service:index}}
-        <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="list-group-item">
+        <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="item">
             {{=service.name}}
         </a>
     {{~}}
     </div>
-
-</div><!-- /.container-fluid -->

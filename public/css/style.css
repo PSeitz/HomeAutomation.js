@@ -4,7 +4,6 @@
 }
 
 
-
 .list-buffer {
   margin-bottom: 15px;
 }
@@ -72,14 +71,6 @@ margin-top: 4px;
   color: #ddd;
 }
 
-
-input[type=checkbox] {
-  /* All browsers except webkit*/
-  transform: scale(2);
-
-  /* Webkit browsers*/
-  -webkit-transform: scale(2);
-}
 /*.bootstrap-switch { height: 2em }*/
 
 

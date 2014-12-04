@@ -728,7 +728,7 @@ $(function() {
     //Home-Settings
     var checkBoxSelector = "input[type='checkbox']";
 
-    $(checkBoxSelector).bootstrapSwitch();
+    
 
     var list = $("ol.sortablelist");
     function sendList(){
@@ -748,9 +748,10 @@ $(function() {
         handle: ".handle"
     });
 
-    $(checkBoxSelector).on('switchChange.bootstrapSwitch', function(event, state) {
-        sendList(); 
-    });
+    // $(checkBoxSelector).bootstrapSwitch();
+    // $(checkBoxSelector).on('switchChange.bootstrapSwitch', function(event, state) {
+    //     sendList(); 
+    // });
 
 
 });

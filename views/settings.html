@@ -2,27 +2,26 @@
 
 	<ol class="sortablelist list-group">
         {{~it.services :service:index}}
-            <li class="list-group-item" data-id="{{=service.service_id}}" id="{{=service.service_id}}">
-                <!-- <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span> -->
 
+            <li class="item item-checkbox" data-id="{{=service.service_id}}" id="{{=service.service_id}}">
+            <label class="checkbox">
+                <input type="checkbox" {{? service.homescreen !== -1 }} checked {{?}}>
+            </label>
+             {{=service.name}}
+            </li>
+
+           <!--  <li class="list-group-item" data-id="{{=service.service_id}}" id="{{=service.service_id}}">
                 <span class="handle">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </span>
-
-                <!-- <button type="button" class="navbar-toggle collapsed">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button> -->
                 <p class="pull-right">
                     <input type="checkbox" {{? service.homescreen !== -1 }} checked {{?}} >
                 </p>
 
                 {{=service.name}}
-            </li>
+            </li> -->
         {{~}}
     </ol>
 <!--  <script src="/js/jquery-ui.min.js"></script>
