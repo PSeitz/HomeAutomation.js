@@ -3,8 +3,6 @@ $(function() {
     //Home-Settings
     var checkBoxSelector = "input[type='checkbox']";
 
-    
-
     var list = $("ol.sortablelist");
     function sendList(){
         var sortedIDs = list.sortable( "toArray" );
@@ -23,10 +21,9 @@ $(function() {
         handle: ".handle"
     });
 
-    // $(checkBoxSelector).bootstrapSwitch();
-    // $(checkBoxSelector).on('switchChange.bootstrapSwitch', function(event, state) {
-    //     sendList(); 
-    // });
+    $(checkBoxSelector).change(function(event, state) {
+        sendList(); 
+    });
 
 
 });

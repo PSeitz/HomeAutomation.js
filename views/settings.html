@@ -1,13 +1,14 @@
-<div class="container-fluid">
+
 
 	<ol class="sortablelist list-group">
         {{~it.services :service:index}}
 
             <li class="item item-checkbox" data-id="{{=service.service_id}}" id="{{=service.service_id}}">
-            <label class="checkbox">
-                <input type="checkbox" {{? service.homescreen !== -1 }} checked {{?}}>
-            </label>
-             {{=service.name}}
+                <label class="checkbox">
+                    <input type="checkbox" {{? service.homescreen !== -1 }} checked {{?}}>
+                </label>
+                 {{=service.name}}
+                 <span class="icon ion-drag pull-right handle"></span>
             </li>
 
            <!--  <li class="list-group-item" data-id="{{=service.service_id}}" id="{{=service.service_id}}">
@@ -28,5 +29,5 @@
 <script src="/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/js/bootstrap-switch.js"></script>-->
 <script src="/build/all_settings.js"></script>
-</div><!-- /.container-fluid -->
+
 

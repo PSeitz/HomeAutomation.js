@@ -4,63 +4,31 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>{{=it.title}}</title>
-        <!-- <link href="/bootstrap/css/bootstrap-switch.min.css" rel="stylesheet"/> -->
-        <!-- <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-        <link href="/css/style.css" rel="stylesheet"/> -->
-        <link href="/ionic/css/ionic.min.css" rel="stylesheet"/>
         <link href="/build/all.css" rel="stylesheet"/>
 	</head>
 	<body>
-		<!-- <div class="navbar navbar-default" role="navigation">
-			<div class="container-fluid" >
-				<div class="collapse navbar-toggle">
-					<ul class="nav navbar-nav">
-						<li><a href="/">Home</a></li>
-						<li><a href="/plugins">Plugins</a></li>
-                        <li><a href="/settings">Settings</a></li>
-					</ul>
-				</div>
-			</div>
-		</div> -->
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsable-navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/"><span class="bigheading">H</span><span class="smallheading">ome Center</span></a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="collapsable-navbar">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plugins <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                {{~it.plugins :plugin:index}}
-                                    <li><a href="/{{=plugin.plugin_name}}">{{=plugin.plugin_name}}</a></li>
-                                {{~}}
-                            </ul>
-                        </li>
-                        <li><a href="/settings">Configure</a></li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
+
+        <nav class="fixed-top">
+            <div class="nav-container">
+                <ul class="nav-menu slideDown">
+                    <li> <a class="navbar-brand" href="/"><span class="bigheading">H</span><span class="smallheading">ome Center</span></a> </li>
+                    <li class="nav-dropdown"> 
+                        <a href="#">Plugins <span class="s-button s-collapse-trigger" href="#">+</span></a>
+                        <ul>
+                            {{~it.plugins :plugin:index}}
+                                <li><a href="/{{=plugin.plugin_name}}">{{=plugin.plugin_name}}</a></li>
+                            {{~}}               
+                        </ul>   
+                    </li>
+                    <li><a href="/settings">Configure</a></li>           
+                </ul>       
+                
+                <a class="s-button s-collapse-trigger" href="#">+</a>
+            </div>  
         </nav>
 
         <script src="/build/all.js"></script>
-        <!-- <script src="/js/jquery-2.1.1.min.js"></script>
-        <script src="/js/fastclick.min.js"></script> -->
-        <!-- <script src="/bootstrap/js/bootstrap.min.js"></script> -->
-        <!-- <script src="/js/main.js"></script> -->
-        
-
-        <!-- // <script src="/js/jquery-sortable-min.js"></script> -->
+        <!-- <script src="/ionic/js/ionic.bundle.min.js"></script> -->
 		{{=it.body}}
         
 	</body>

@@ -10,12 +10,12 @@ gulp.task('less', function() {
 });
 
 var mainjs_files = [
-	'./public/js/jquery-2.1.1.min.js',
 	'./public/js/fastclick.min.js',
-	'./public/bootstrap/js/bootstrap.min.js',
+	// './public/bootstrap/js/bootstrap.min.js',
 	'./public/js/main.js'
 ];
 var settingsjs_files = [
+	'./public/js/jquery-2.1.1.min.js',
 	'./public/js/jquery-ui.min.js',
 	'./public/js/jquery.ui.touch-punch.min.js',
 	'./public/js/bootstrap-switch.js',
@@ -24,6 +24,7 @@ var settingsjs_files = [
 
 var css_files = [
 	// './public/bootstrap/css/bootstrap.min.css',
+	'./public/ionic/css/ionic.min.css',
 	'./public/css/style.css'
 ];
 
@@ -31,7 +32,7 @@ var css_files = [
 gulp.task('watch', function() {
 	gulp.watch(css_files, ['buildcss']);
 	gulp.watch(mainjs_files, ['buildjs']);
-	gulp.watch(settingsjs_files, ['buildjs']);
+	gulp.watch(settingsjs_files, ['buildjs_settings']);
 });
 
 // Rerun the task when a file changes

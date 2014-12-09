@@ -1,8 +1,16 @@
 
     <div class="list">
     {{~it.services :service:index}}
-        <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="item">
+        
+        <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="item selectable">
             {{=service.name}}
         </a>
+
+        <!-- <a class="item item-icon-left item-icon-right" href="#">
+            <i class="icon ion-chatbubble-working"></i>
+            {{=service.name}}
+            <i class="icon ion-ios7-telephone-outline"></i>
+        </a> -->
+
     {{~}}
     </div>
