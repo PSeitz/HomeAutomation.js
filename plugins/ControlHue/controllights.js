@@ -33,8 +33,8 @@ var matches = function(lightName, matches ){
     }
 };
 
-var allLamps = ["WZ Links", "WZ Rechts", "WZ Back", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten" ];
-var wohnzimmer = ["WZ Links", "WZ Rechts", "WZ Back"];
+var allLamps = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten" ];
+var wohnzimmer = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"];
 var schlafzimmer = ["SZ I", "SZ O 1"];
 var arbeitszimmer = [ "AZ Vorne", "AZ Hinten"];
 
