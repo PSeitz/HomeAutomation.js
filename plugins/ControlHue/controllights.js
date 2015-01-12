@@ -38,6 +38,8 @@ var wohnzimmer = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"];
 var schlafzimmer = ["SZ I", "SZ O 1"];
 var arbeitszimmer = [ "AZ Vorne", "AZ Hinten"];
 
+var flur = [ "Flur"];
+
 
 var displayResult = function(result) {
     console.log(JSON.stringify(result, null, 2));
@@ -104,6 +106,11 @@ exports.services = function(){
     },{
         action : exports.arbeitszimmerOnly,
         name: "Arbeitszimmer"
+    },{
+        action : function(){
+            exports.only(schlafzimmer.concat(flur));
+        },
+        name: "Aufstehen"
     }];
 };
 
