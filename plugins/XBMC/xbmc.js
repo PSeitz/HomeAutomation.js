@@ -6,7 +6,7 @@ var cachedData;
 function getPostOptions(post_data_string, targetIP) {
     var post_options = {
         host: targetIP,
-        port: '80',
+        port: '8080',
         path: '/jsonrpc',
         method: 'POST',
         headers: {
@@ -63,10 +63,10 @@ function getAllTVShows(targetIP, cb) {
 }
 
 
-function findFamilyGuyShowId(targetIP, cb) {
+function findShowIDForName(targetIP, name, cb) {
 
     getAllTVShows(targetIP, function(data) {
-        console.log(data["result"]);
+        console.log(data.result);
         if (!data || !data.result || !data.result.tvshows) {
             console.log("Nothing found");
             return;
@@ -74,7 +74,7 @@ function findFamilyGuyShowId(targetIP, cb) {
 
         var shows = data.result.tvshows;
         for (var i = 0; i < shows.length; i++) {
-            if(shows[i].label=="Family Guy"){
+            if(shows[i].label==name){
                 cb(shows[i].tvshowid);
                 return;
             }
@@ -83,11 +83,11 @@ function findFamilyGuyShowId(targetIP, cb) {
 
 }
 
-function getAllEpisodes(targetIP, cb) {
+function getAllEpisodes(targetIP, name, cb) {
 
     // if (cachedData) return cb(cachedData);
 
-    findFamilyGuyShowId(targetIP, function(showid){
+    findShowIDForName(targetIP, name, function(showid){
 
         var post_data = {
             "jsonrpc": "2.0",
@@ -121,8 +121,8 @@ function play(id, targetIP) {
 
 }
 
-function playRandom(targetIP) {
-    getAllEpisodes(targetIP, function(data) {
+function playRandom(name, targetIP) {
+    getAllEpisodes(targetIP, name, function(data) {
         var eps = data.result.episodes;
         var ep = _.sample(eps);
         console.log(ep);
@@ -137,8 +137,8 @@ exports.getName = function(){
 exports.services = function(){
     return [{
         action : function(){
-            playRandom('192.168.0.29');
-            playRandom('192.168.0.21');
+            playRandom("Family Guy", '192.168.0.39');
+            playRandom("Family Guy", '192.168.0.21');
         },
         name: "Random FamilyGuy"
     }];

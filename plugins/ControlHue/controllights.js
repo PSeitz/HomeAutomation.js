@@ -40,49 +40,28 @@ var arbeitszimmer = [ "AZ Vorne", "AZ Hinten"];
 
 var flur = [ "Flur"];
 
-
 var displayResult = function(result) {
     console.log(JSON.stringify(result, null, 2));
 };
 
-
 var displayError = function(err) {
     console.log(err);
 };
-
-exports.wakeUp = function(){
+var wakeUp = function(){
     controlLights(hueLights, {"transitiontime": 600, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["SZ", "Flur"]);
 };
-
-exports.allOn = function(){
+var allOn = function(){
     controlLights(hueLights, {"transitiontime": 1, "bri": 254, "on": true, "hue": 15760, "saturation":93}, allLamps);
-
 };
-
-exports.allOff = function(){
+var allOff = function(){
     controlLights(hueLights, {"transitiontime": 1,"on": false}, allLamps);
 };
-
-exports.only = function(onLamps){
+var only = function(onLamps){
     var off = _.difference(allLamps, onLamps);
     controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254, "hue": 15760, "saturation":93}, onLamps);
     controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
-
-exports.wohnzimmerOnly = function(){
-    exports.only(wohnzimmer);
-};
-
-exports.schlafzimmerOnly = function(){
-    exports.only(schlafzimmer);
-};
-
-exports.arbeitszimmerOnly = function(){
-    exports.only(arbeitszimmer);
-};
-
-
-exports.lightUp = function(){
+var lightUp = function(){
     controlLights(hueLights, {"transitiontime": 60, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["AZ", "Flur", "WZ"]);
 };
 
@@ -92,23 +71,29 @@ exports.getName = function(){
 
 exports.services = function(){
     return [{
-        action : exports.allOff,
+        action : allOff,
         name: "All Off"
     },{
-        action : exports.allOn,
+        action : allOn,
         name: "All On"
     },{
-        action : exports.wohnzimmerOnly,
+        action : function(){
+            only(wohnzimmer);
+        },
         name: "Wohnzimmer"
     },{
-        action : exports.schlafzimmerOnly,
+        action : function(){
+            only(schlafzimmer);
+        },
         name: "Schlafzimmer"
     },{
-        action : exports.arbeitszimmerOnly,
+        action :  function(){
+            only(arbeitszimmer);
+        },
         name: "Arbeitszimmer"
     },{
         action : function(){
-            exports.only(schlafzimmer.concat(flur));
+            only(schlafzimmer.concat(flur));
         },
         name: "Aufstehen"
     }];

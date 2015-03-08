@@ -9,13 +9,14 @@ var bodyParser = require('body-parser');
 var routes = require('./routes');
 
 var app = express();
-var doT = require('express-dot');
+// var doT = require('express-dot');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 
-app.set('view engine', 'dot' );
-app.engine('html', doT.__express );
+// app.set('view engine', 'dot' );
+// app.engine('html', doT.__express );
 
 
 app.use(favicon());

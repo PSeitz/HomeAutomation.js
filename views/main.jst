@@ -1,0 +1,16 @@
+
+    <div class="list">
+    {{~it.services :service:index}}
+        
+
+        {{? service.plugin.templates.service}}
+            {{=service.plugin.templates.service(service)}}
+        {{??}}
+            <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="item selectable">
+                {{=service.name}}
+            </a>
+        {{?}}
+
+
+    {{~}}
+    </div>
