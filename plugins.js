@@ -59,6 +59,16 @@ function generateServiceId(pluginName, serviceName){
     return service_id.replace(/\s/g,''); // Strip whitespaces
 }
 
+/*
+*   {
+        plugin_name: aaa,
+        name: bbb,
+        service_id: aaabbb,
+        services: [yoo, yeah]
+        template: blubber
+    }
+*
+*/
 Plugins.prototype.getAllServices = function () {
     var allPlugins = this.getAll();
 

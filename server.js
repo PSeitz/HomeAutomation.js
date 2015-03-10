@@ -11,6 +11,12 @@ var app = express();
 var server = http.createServer(app);
 
 
+app.use(favicon());
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(cookieParser());
+
 // var expressWs = require('express-ws')(app, server);
 var plugins = require('./plugins');
 var sorting = require("./homescreensortorder");
@@ -122,11 +128,7 @@ app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'dot' );
 // app.engine('html', doT.__express );
 
-app.use(favicon());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 
