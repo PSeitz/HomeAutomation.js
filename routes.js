@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
+var expressWs = require('express-ws')(router);
 var plugins = require('./plugins');
 var sorting = require("./homescreensortorder");
 
 require("dot").process({
-	global: "_page.render"
-	, destination: __dirname + "/render/"
-	, path: (__dirname + "/views")
+	global: "_page.render",
+	destination: __dirname + "/render/",
+	path: (__dirname + "/views")
 });
 
 var render = require('./render');
@@ -17,6 +17,55 @@ var renderDotTemplate = function(bodyfun, options){
 	options.body = render[bodyfun](options);
 	return render.layout(options);
 };
+
+router.ws('/echo', function(ws, req) {
+    ws.on('message', function(msg) {
+        console.log('echo received' + msg);
+        ws.send(msg);
+    });
+});
+
+// var WebSocketServer = require('ws').Server;
+// var wss = new WebSocketServer({ port: 9998, path:"/echo" });
+
+// wss.on('connection', function connection(ws, blub, test) {
+//     ws.on('message', function incoming(message) {
+//         console.log('echo received: %s', message);
+//     });
+
+//     ws.send('something');
+// });
+
+
+// var WebSocketServer = require('ws').Server;
+// var wss = new WebSocketServer({ port: 9998, path:"/echo2" });
+
+// wss.on('connection', function connection(ws) {
+//   ws.on('message', function incoming(message) {
+//     console.log('echo2 received: %s', message);
+//   });
+
+//   ws.send('something');
+// });
+
+
+// router.use(function (req, res, next) {
+//   console.log('middleware');
+//   req.testing = 'testing';
+//   return next();
+// });
+
+// router.get('/', function(req, res, next){
+//   console.log('get route', req.testing);
+//   res.end();
+// });
+
+// router.ws('/', function(ws, req) {
+//   ws.on('message', function(msg) {
+//     console.log(msg);
+//   });
+//   console.log('socket', req.testing);
+// });
 
 
 router.get('/', function(req, res) {

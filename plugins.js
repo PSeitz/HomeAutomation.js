@@ -62,7 +62,6 @@ function generateServiceId(pluginName, serviceName){
 Plugins.prototype.getAllServices = function () {
     var allPlugins = this.getAll();
 
-    
     var allServices = [];
     for (var i = 0; i < allPlugins.length; i++) {
         
