@@ -1,3 +1,13 @@
 <a onclick="sendRequest('{{=it.service_id}}')" href="#" class="item selectable">
     {{=it.name}} YO
 </a>
+
+<script>
+	
+// alert("{{=it.service_id}}");
+
+	websocket("{{=it.service_id}}", function(msg){
+		alert(msg);
+	});
+
+</script>

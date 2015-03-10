@@ -10,7 +10,6 @@ var app = express();
 
 var server = http.createServer(app);
 
-
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -30,11 +29,24 @@ require("dot").process({
 var render = require('./render');
 
 
-var renderDotTemplate = function(bodyfun, options){
-    options.body = render[bodyfun](options);
-    return render.layout(options);
+var service = {};
+service.addWebservice = function(service, path, cb){
+    app.ws(path, function(ws) {
+        cb(msg);
+        // ws.on('message', function(msg) {
+        //     // console.log('echo received' + msg);
+        //     // ws.send(msg);
+            
+        // });
+    });
 };
 
+var renderDotTemplate = function(bodyfun, templateData){
+    templateData.body = render[bodyfun](templateData);
+    templateData.server=service;
+    templateData.title = "HomeAutomation";
+    return render.layout(templateData);
+};
 
 
 var WebSocketServer = require('ws').Server;
@@ -44,7 +56,6 @@ app.ws = function(path, middleware){
         middleware(ws);
     });
 };
-
 
 app.ws('/echo', function(ws) {
     ws.on('message', function(msg) {
@@ -60,7 +71,6 @@ app.get('/', function(req, res) {
         console.log(homeservices[i]);
     }
     res.send(renderDotTemplate("main", {
-        title: "HomeAutomation",
         services: homeservices,
         plugins: allPlugins
     }));
@@ -91,7 +101,6 @@ var allPlugins = plugins.getAll();
 allPlugins.forEach(function (element, index, array) {
     app.get('/'+element.plugin_name, function(req, res) {
         res.send(renderDotTemplate("settings", {
-            title: "HomeAutomation",
             services: element.services,
             plugins: allPlugins
         }));
@@ -101,7 +110,6 @@ allPlugins.forEach(function (element, index, array) {
 app.get("/settings", function(req, res) {
     var allServices = plugins.getAllServices();
     res.send(renderDotTemplate("settings", {
-        title: "HomeAutomation",
         services: allServices,
         plugins: allPlugins
     }));
@@ -119,32 +127,15 @@ app.get("/download/:system/:id/:name", function(req, res) {
     var game = req.params.name;
     var system = req.params.system;
 });
-// var doT = require('express-dot');
-
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-
+// app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'dot' );
 // app.engine('html', doT.__express );
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 server.listen(80);
 
-var service = {};
-service.addWebservice = function(service, path, cb){
-    app.ws(path, function(ws) {
-        cb(msg);
-        // ws.on('message', function(msg) {
-        //     // console.log('echo received' + msg);
-        //     // ws.send(msg);
-            
-        // });
-    });
-};
 module.exports = service;
 
 

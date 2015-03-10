@@ -5,7 +5,7 @@ var sorting = require("./homescreensortorder");
 
 var pluginsFolder = './plugins';
 var dot = require("dot");
-
+var server = require("./server");
 
 function validatePlugin(plugin, pluginFolder){
     try {
