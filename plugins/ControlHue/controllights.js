@@ -80,7 +80,10 @@ exports.services = function(){
         action : function(){
             only(wohnzimmer);
         },
-        name: "Wohnzimmer"
+        name: "Wohnzimmer",
+        onWebsocketConnection: function(ws){
+            ws.send("YEAG");
+        }
     },{
         action : function(){
             only(schlafzimmer);

@@ -1,13 +1,12 @@
 <a onclick="sendRequest('{{=it.service_id}}')" href="#" class="item selectable">
-    {{=it.name}} YO
+    {{=it.name}} YO <span id="{{=it.service_id}}_Status"></span>
 </a>
 
 <script>
 	
-// alert("{{=it.service_id}}");
-
 	websocket("{{=it.service_id}}", function(msg){
-		alert(msg);
+        element = document.getElementById("{{=it.service_id}}_Status");
+        element.innerHtml = "msg";
 	});
 
 </script>

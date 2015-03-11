@@ -20,6 +20,26 @@ function sendRequest(url, type, onsuccess, onerror) {
     request.send();
 }
 
+function websocket(servicepath, onmessage, onopen){
+
+    var ws = new WebSocket("ws://localhost:80/"+servicepath);
+    ws.onopen = function() {
+        // Web Socket is connected, send data using send()
+        // ws.send("Message to send");
+        // alert("Message is sent...");
+        if (onopen) onopen(ws);
+    };
+    ws.onmessage = function(evt) {
+        var received_msg = evt.data;
+        if(onmessage)onmessage(evt);
+    };
+    ws.onclose = function() {
+        // websocket is closed.
+        // alert("Connection is closed...");
+    };
+
+}
+
 
 if ('addEventListener' in document) {
     document.addEventListener('DOMContentLoaded', function() {

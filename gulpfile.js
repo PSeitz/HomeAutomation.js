@@ -57,3 +57,5 @@ gulp.task('buildcss', function() {
 	.pipe(concat('all.css'))
 	.pipe(gulp.dest(DEST));
 });
+
+gulp.task('default', ['buildcss', 'buildjs_settings', 'buildjs']);

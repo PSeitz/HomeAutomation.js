@@ -19,7 +19,12 @@ function validatePlugin(plugin, pluginFolder){
     
 }
 
-function loadPlugins() {
+// var controlLights = require("./plugins/ControlHue/controllights");
+// var wol = require("./plugins/Wol/wol");
+
+var Plugins = {};
+
+Plugins.loadPlugins = function() {
     var allPlugins = [];
     fs.readdirSync(pluginsFolder).forEach(function(file) {
         var pluginFolder = path.join(__dirname,pluginsFolder, file);
@@ -37,21 +42,23 @@ function loadPlugins() {
             allPlugins.push(plugin, pluginPath);
         }
     });
-    return allPlugins;
-}
-
-
-// var controlLights = require("./plugins/ControlHue/controllights");
-// var wol = require("./plugins/Wol/wol");
-
-var Plugins = function (){
+    Plugins.allPlugins = allPlugins;
 };
 
-var allPlugins = loadPlugins();
-console.log(allPlugins);
 
-Plugins.prototype.getAll = function () {
-    return allPlugins;
+// Plugins.activateServices = function() {
+//     var allServices = Plugins.getAllServices();
+//     for (var i = 0; i < allServices.length; i++) {
+//         allServices[i]
+//     };
+//     return allServices;
+// };
+
+// var allPlugins = loadPlugins();
+// console.log(allPlugins);
+
+Plugins.getAll = function () {
+    return Plugins.allPlugins;
 };
 
 function generateServiceId(pluginName, serviceName){
@@ -67,16 +74,14 @@ function generateServiceId(pluginName, serviceName){
         services: [yoo, yeah]
         template: blubber
     }
-*
 */
-Plugins.prototype.getAllServices = function () {
-    var allPlugins = this.getAll();
+Plugins.getAllServices = function () {
+    var allPlugins = Plugins.getAll();
 
     var allServices = [];
     for (var i = 0; i < allPlugins.length; i++) {
-        
-        var pluginservices = allPlugins[i].services;
 
+        var pluginservices = allPlugins[i].services;
         _(pluginservices).forEach(function fillServiceInfo(service, plugin) {
             service.plugin_name = allPlugins[i].plugin_name;
             service.service_id = generateServiceId(service.plugin_name,service.name);
@@ -93,8 +98,8 @@ Plugins.prototype.getAllServices = function () {
     return allServices;
 };
 
-Plugins.prototype.getHome = function () {
-    var services = this.getAllServices();
+Plugins.getHome = function () {
+    var services = Plugins.getAllServices();
     for (var i = 0; i < services.length; i++) {
         services[i].homescreen = sorting.getPositionForServiceId(services[i].service_id);
     }
@@ -106,7 +111,4 @@ Plugins.prototype.getHome = function () {
 
 
 
-
-var plugins = new Plugins();
-
-module.exports = plugins;
+module.exports = Plugins;

@@ -9,24 +9,12 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var server = http.createServer(app);
-
+server.listen(80);
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-
-// var expressWs = require('express-ws')(app, server);
-var plugins = require('./plugins');
-var sorting = require("./homescreensortorder");
-
-require("dot").process({
-    global: "_page.render",
-    destination: __dirname + "/render/",
-    path: (__dirname + "/views")
-});
-
-var render = require('./render');
 
 
 var service = {};
@@ -40,10 +28,25 @@ service.addWebservice = function(service, path, cb){
         // });
     });
 };
+module.exports = service;
+
+// var expressWs = require('express-ws')(app, server);
+var plugins = require('./plugins');
+plugins.loadPlugins();
+var sorting = require("./homescreensortorder");
+
+require("dot").process({
+    global: "_page.render",
+    destination: __dirname + "/render/",
+    path: (__dirname + "/views")
+});
+
+var render = require('./render');
+
 
 var renderDotTemplate = function(bodyfun, templateData){
     templateData.body = render[bodyfun](templateData);
-    templateData.server=service;
+    templateData.server = service;
     templateData.title = "HomeAutomation";
     return render.layout(templateData);
 };
@@ -63,6 +66,15 @@ app.ws('/echo', function(ws) {
         ws.send(msg);
     });
 });
+
+app.ws('/LightsWohnzimmer', function(ws) {
+    // ws.on('message', function(msg) {
+    //     console.log('echo received' + msg);
+    //     ws.send("LightsWohnzimmer");
+    // });
+    ws.send("LightsWohnzimmer");
+});
+
 
 app.get('/', function(req, res) {
     var homeservices = plugins.getHome();
@@ -84,10 +96,10 @@ app.get('/', function(req, res) {
         services: [yoo, yeah]
         template: blubber
     }
-*
 */
 var allServices = plugins.getAllServices();
 
+//Add Service paths
 allServices.forEach(function (element, index, array) {
     console.log(element.service_id);
     app.get("/"+element.service_id, function(req, res) {
@@ -134,9 +146,9 @@ app.get("/download/:system/:id/:name", function(req, res) {
 // app.engine('html', doT.__express );
 
 app.use(express.static(path.join(__dirname, 'public')));
-server.listen(80);
 
-module.exports = service;
+
+
 
 
 
