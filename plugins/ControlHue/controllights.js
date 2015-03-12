@@ -83,6 +83,10 @@ exports.services = function(){
         name: "Wohnzimmer",
         onWebsocketConnection: function(ws){
             ws.send("YEAG");
+            // setInterval(function(){
+            //     var blub = (Math.random() * 10).toString();
+            //     ws.send(blub);
+            // }, 600);
         }
     },{
         action : function(){

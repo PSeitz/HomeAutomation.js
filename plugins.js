@@ -5,7 +5,6 @@ var sorting = require("./homescreensortorder");
 
 var pluginsFolder = './plugins';
 var dot = require("dot");
-var server = require("./server");
 
 function validatePlugin(plugin, pluginFolder){
     try {
@@ -45,14 +44,16 @@ Plugins.loadPlugins = function() {
     Plugins.allPlugins = allPlugins;
 };
 
-
-// Plugins.activateServices = function() {
-//     var allServices = Plugins.getAllServices();
-//     for (var i = 0; i < allServices.length; i++) {
-//         allServices[i]
-//     };
-//     return allServices;
-// };
+Plugins.activateServices = function() {
+    var server = require("./server");
+    var allServices = Plugins.getAllServices();
+    for (var i = 0; i < allServices.length; i++) {
+        if (allServices[i].onWebsocketConnection) {
+            server.addWebservice('/'+allServices[i].service_id, allServices[i].onWebsocketConnection);
+        }
+    }
+    return allServices;
+};
 
 // var allPlugins = loadPlugins();
 // console.log(allPlugins);

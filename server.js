@@ -17,22 +17,37 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
 
+// path:middleware
+var dispatch = {};
+
+var WebSocketServer = require('ws').Server;
+app.ws = function(path, middleware){
+	dispatch[path] = middleware;
+};
+
+
+var wss = new WebSocketServer({
+	server: server
+});
+wss.on('connection', function(ws) {
+	// console.log(ws);
+	if (dispatch[ws.upgradeReq.url]){
+		dispatch[ws.upgradeReq.url](ws);
+	}else{
+		ws.close();
+	}
+});
+
 var service = {};
-service.addWebservice = function(service, path, cb){
-    app.ws(path, function(ws) {
-        cb(msg);
-        // ws.on('message', function(msg) {
-        //     // console.log('echo received' + msg);
-        //     // ws.send(msg);
-            
-        // });
-    });
+service.addWebservice = function(path, cb){
+    app.ws(path, cb);
 };
 module.exports = service;
 
 // var expressWs = require('express-ws')(app, server);
 var plugins = require('./plugins');
 plugins.loadPlugins();
+plugins.activateServices();
 var sorting = require("./homescreensortorder");
 
 require("dot").process({
@@ -52,28 +67,13 @@ var renderDotTemplate = function(bodyfun, templateData){
 };
 
 
-var WebSocketServer = require('ws').Server;
-app.ws = function(path, middleware){
-    var wss = new WebSocketServer({ server: server, path:path });
-    wss.on('connection', function connection(ws) {
-        middleware(ws);
-    });
-};
-
-app.ws('/echo', function(ws) {
-    ws.on('message', function(msg) {
-        console.log('echo received' + msg);
-        ws.send(msg);
-    });
-});
-
-app.ws('/LightsWohnzimmer', function(ws) {
-    // ws.on('message', function(msg) {
-    //     console.log('echo received' + msg);
-    //     ws.send("LightsWohnzimmer");
-    // });
-    ws.send("LightsWohnzimmer");
-});
+// app.ws('/LightsWohnzimmer', function(ws) {
+//     // ws.on('message', function(msg) {
+//     //     console.log('echo received' + msg);
+//     //     ws.send("LightsWohnzimmer");
+//     // });
+//     ws.send("LightsWohnzimmer");
+// });
 
 
 app.get('/', function(req, res) {
