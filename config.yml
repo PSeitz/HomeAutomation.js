@@ -1,0 +1,16 @@
+ControlHue: 
+    hostname: "192.168.0.59"
+    token: "3cae5b382976779f2f30cce81ea78faf"
+    actions:
+        All Off: []
+        All On: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
+        Schlafzimmer: ["SZ I", "SZ O 1"]
+        Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
+        Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
+Wol: 
+    Nas On: 'bc:5f:f4:cd:e0:3b'
+XBMC: 
+    ip: ['192.168.0.39', '192.168.0.21']
+    actions:
+        Random FamilyGuy: "Family Guy"
+Yamaha: world

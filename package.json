@@ -24,13 +24,14 @@
     "express": "~4.2.0",
     "express-ws": "^0.2.5",
     "harmonyhubjs-client": "~1.1.3",
+    "js-yaml": "^3.2.7",
     "lodash": "~2.4.1",
     "morgan": "~1.0.0",
     "node-hue-api": "^0.2.3",
     "static-favicon": "~1.0.0",
     "wake_on_lan": "0.0.4",
-    "yamaha-nodejs": "^0.4.0",
-    "ws": "~0.7.1"
+    "ws": "~0.7.1",
+    "yamaha-nodejs": "^0.4.0"
   },
   "author": "Pascal Seitz <pascal.seitz@gmail.com>",
   "license": "ISC",

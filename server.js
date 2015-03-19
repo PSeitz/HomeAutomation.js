@@ -9,7 +9,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var server = http.createServer(app);
-server.listen(80);
+server.listen(8080);
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -118,6 +118,14 @@ allPlugins.forEach(function (element, index, array) {
         }));
     });
 });
+
+
+app.post("/speech/", function(req, res) {
+    var speech = req.params;
+
+
+});
+
 
 app.get("/settings", function(req, res) {
     var allServices = plugins.getAllServices();

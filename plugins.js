@@ -15,7 +15,6 @@ function validatePlugin(plugin, pluginFolder){
         console.log(error);
         throw error;
     }
-    
 }
 
 // var controlLights = require("./plugins/ControlHue/controllights");
@@ -49,7 +48,9 @@ Plugins.activateServices = function() {
     var allServices = Plugins.getAllServices();
     for (var i = 0; i < allServices.length; i++) {
         if (allServices[i].onWebsocketConnection) {
-            server.addWebservice('/'+allServices[i].service_id, allServices[i].onWebsocketConnection);
+            server.addWebservice('/'+allServices[i].service_id, function(ws){
+                allServices[i].onWebsocketConnection(ws);
+            });
         }
     }
     return allServices;
