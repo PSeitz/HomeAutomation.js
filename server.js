@@ -9,11 +9,13 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var server = http.createServer(app);
-server.listen(8080);
+server.listen(80);
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
+app.use(bodyParser.text({ type: 'text/html' }));
+// app.use(bodyParser.text({ type: 'plain/text' }));
 app.use(cookieParser());
 
 
@@ -49,6 +51,8 @@ var plugins = require('./plugins');
 plugins.loadPlugins();
 plugins.activateServices();
 var sorting = require("./homescreensortorder");
+
+var speechModule = require('./speech');
 
 require("dot").process({
     global: "_page.render",
@@ -120,12 +124,34 @@ allPlugins.forEach(function (element, index, array) {
 });
 
 
-app.post("/speech/", function(req, res) {
-    var speech = req.params;
+// app.post("/speech/", function(req, res) {
+//     var speech = req.params;
 
+
+// });
+
+
+// app.get("/speech/:s1/:s2/:s3/:s4/:s5/:s6/:s7", function(req, res) {
+//     // var speech = req.params.s1;
+//     console.log("YEAH");
+//     console.log(req.params.s1);
+//     console.log(req.params.s2);
+//     console.log(req.params.s3);
+//     console.log(req.params.s4);
+// });
+
+app.post("/speech/", function(req, res) {
+	var speech = req.body;
+    console.log(speech);
+    speechModule.handleSpeech(speech);
+
+	res.send('hehehe!');
 
 });
 
+// setTimeout(function(){
+// 	speechModule.handleSpeech("Alle Lichter aus");
+// }, 5000);
 
 app.get("/settings", function(req, res) {
     var allServices = plugins.getAllServices();

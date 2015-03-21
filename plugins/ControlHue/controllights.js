@@ -50,17 +50,8 @@ var displayResult = function(result) {
 var displayError = function(err) {
     console.log(err);
 };
-// var wakeUp = function(){
-//     controlLights(hueLights, {"transitiontime": 600, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["SZ", "Flur"]);
-// };
-// var allOn = function(){
-//     controlLights(hueLights, {"transitiontime": 1, "bri": 254, "on": true, "hue": 15760, "saturation":93}, allLamps);
-// };
-// var allOff = function(){
-//     controlLights(hueLights, {"transitiontime": 1,"on": false}, allLamps);
-// };
 var only = function(onLamps){
-    var off = _.difference(allLamps, onLamps);
+    var off = _.difference(config.devices, onLamps);
     controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254, "hue": 15760, "saturation":93}, onLamps);
     controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
@@ -72,68 +63,22 @@ exports.getName = function(){
     return "Lights";
 };
 
-// exports.services = function(){
-//     return [{
-//         action : allOff,
-//         name: "All Off"
-//     },{
-//         action : allOn,
-//         name: "All On"
-//     },{
-//         action : function(){
-//             only(wohnzimmer);
-//         },
-//         name: "Wohnzimmer",
-//         onWebsocketConnection: function(ws){
-//             ws.send("YEAG");
-//             // setInterval(function(){
-//             //     var blub = (Math.random() * 10).toString();
-//             //     ws.send(blub);
-//             // }, 600);
-//         }
-//     },{
-//         action : function(){
-//             only(schlafzimmer);
-//         },
-//         name: "Schlafzimmer"
-//     },{
-//         action :  function(){
-//             only(arbeitszimmer);
-//         },
-//         name: "Arbeitszimmer"
-//     },{
-//         action : function(){
-//             only(schlafzimmer.concat(flur));
-//         },
-//         name: "Aufstehen"
-//     }];
-// };
-
 function createfunc(lights) {
     return function() { only(lights); };
 }
 
 exports.services = function(){
     var actions = [];
-    for (var prop in config.actions) {
+    for (var prop in config.services) {
         actions.push({
             name: prop,
-            action : createfunc(config.actions[prop])
+            action : createfunc(config.services[prop])
         });
     }
+    return actions;
 };
 
-
-
-// console.log(config.actions.Wohnzimmer);
-
-// var hostname = "192.168.0.59";
-// var token = "3cae5b382976779f2f30cce81ea78faf";
-
-// var api = new HueApi(hostname, token);
-
 var api = new HueApi(config.hostname, config.token);
-
 
 //Initial load all lights
 var hueLights;

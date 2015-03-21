@@ -1,16 +1,68 @@
 ControlHue: 
     hostname: "192.168.0.59"
     token: "3cae5b382976779f2f30cce81ea78faf"
-    actions:
-        All Off: []
-        All On: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
+    devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
+    Rooms:
+        Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
+        Schlafzimmer: ["SZ I", "SZ O 1"]
+        Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
+        Flur: [ "Flur"]
+    services:
+        Alle Aus: []
+        Alle An: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
         Schlafzimmer: ["SZ I", "SZ O 1"]
         Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
         Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
-Wol: 
-    Nas On: 'bc:5f:f4:cd:e0:3b'
+        Flur: [ "Flur"]
+Wol:
+    Rooms:
+        Arbeitszimmer: ["Nas"]
+    devices: 
+        Nas: 'bc:5f:f4:cd:e0:3b'
+    services:
+        Nas: Nas
 XBMC: 
     ip: ['192.168.0.39', '192.168.0.21']
     actions:
         Random FamilyGuy: "Family Guy"
+Harmony Hub: 
+    ip: '192.168.0.32'
+    services:
+        Fernsehen: 
+            activity: 'FERNSEHEN'
+            action: on
+        Fernseher ausschalten:
+            activity: 'FERNSEHEN'
+            action: off
 Yamaha: world
+Speech:
+    -
+      match: ["Alle Lichter An"]
+      action:
+        service: Alle An
+    -
+      match: ["Alle Lichter Aus"]
+      action:
+        service: Alle Aus
+    -
+      match: ["Licht an"]
+      action:
+        service: Wohnzimmer
+    -
+      match: ["Gute Nacht"]
+      action:
+        service: [Alle Aus, Fernsehen Stop]
+    -
+      match: ["abgehts"]
+      action:
+        service: Wohnzimmer
+    -
+      match: ["テレビ お願いします"]
+      action:
+        service: Fernsehen
+    -
+      match: ["テレビ 終わって お願いします", "テレビ 終わってください", "テレビ スイッチを切るお願いします"]
+      action:
+        service: Fernseher ausschalten
+Rooms: [Wohnzimmer, Schlafzimmer, Arbeitszimmer, Flur]
+Devices: [XBMC Schlafzimmer, Nas, WZ Links, WZ Rechts, WZ Back, WZ Back Links, Flur, SZ I, SZ O 1, AZ Vorne, AZ Hinten]

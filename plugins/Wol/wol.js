@@ -33,12 +33,14 @@ function createfunc(mac_adress) {
 
 exports.services = function(){
     var actions = [];
-    for (var prop in config) {
+    for (var prop in config.services) {
+        var deviceName = config.services[prop];
         actions.push({
             name: prop,
-            action : createfunc(config[prop])
+            action : createfunc(config.devices[deviceName])
         });
     }
+    return actions;
 };
 
 exports.settings = function(){

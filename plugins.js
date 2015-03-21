@@ -63,6 +63,34 @@ Plugins.getAll = function () {
     return Plugins.allPlugins;
 };
 
+Plugins.getPlugin = function (name) {
+    for (var i = 0; i < Plugins.allPlugins.length; i++) {
+        if(Plugins.allPlugins[i].plugin_name === name){
+            return Plugins.allPlugins[i];
+        }
+    }
+    console.log("PLUGIN NOT FOUND:" + name);
+};
+
+Plugins.getService = function (plugin_name, service_name) {
+    var plugin = Plugins.getPlugin(plugin_name);
+    var pluginservices = plugin.services;
+    for (var i = 0; i < pluginservices.length; i++) {
+        if(pluginservices[i].name === service_name){
+            return pluginservices[i];
+        }
+    }
+};
+
+Plugins.findServiceByName = function (service_name) {
+    var allServices = Plugins.getAllServices();
+    for (var i = 0; i < allServices.length; i++) {
+        if(allServices[i].name === service_name){
+            return allServices[i];
+        }
+    }
+};
+
 function generateServiceId(pluginName, serviceName){
     var service_id = pluginName+serviceName;
     return service_id.replace(/\s/g,''); // Strip whitespaces
@@ -90,7 +118,6 @@ Plugins.getAllServices = function () {
             service.homescreen = sorting.getPositionForServiceId(service.service_id);
             service.plugin = allPlugins[i];
         });
-
         allServices = _.union(allServices, pluginservices);
 
     }

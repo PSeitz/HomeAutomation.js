@@ -30,7 +30,6 @@ function requestIt(post_data, targetIP, cb) {
         });
         res.on('end', function(chunk) {
             if (cb) cb(JSON.parse(data));
-            
         });
         res.on('error', function(e){
             console.log(e);
