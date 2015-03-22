@@ -1,5 +1,8 @@
 var yamaha = require('yamaha-nodejs');
-var yomaha = new yamaha("192.168.0.25");
+
+var config = require('../../configloader').get("Yamaha");
+
+var yomaha = new yamaha(config.ip);
 
 exports.getName = function(){
     return "Yamaha";
@@ -14,4 +17,6 @@ exports.services = function(){
     }];
 };
 
+exports.commandApi = function(command){
 
+};

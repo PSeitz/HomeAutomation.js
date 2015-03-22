@@ -1,7 +1,9 @@
-var _=require('lodash');
+var _ = require('lodash');
 var fs = require('fs');
 var path = require('path');
 var sorting = require("./homescreensortorder");
+
+var configLoader = require('./configloader');
 
 var pluginsFolder = './plugins';
 var dot = require("dot");
@@ -10,6 +12,7 @@ function validatePlugin(plugin, pluginFolder){
     try {
         plugin.plugin_name = plugin.getName();
         plugin.services = plugin.services();
+        if (!plugin.commandApi) throw "No plugin commandApi";
     } catch (err) {
         var error = new Error('Error in Plugin:'+pluginFolder);
         console.log(error);
@@ -30,14 +33,15 @@ Plugins.loadPlugins = function() {
         var pathToConfig = path.join(pluginFolder, ".homeauto.json"); //if there is a homeauto.json, there is a plugin
         console.log(pathToConfig);
         if (fs.existsSync(pathToConfig)) {
-            // return true;
             var pluginConfig = require(pathToConfig);
             var pluginPath = path.join(pluginFolder, pluginConfig.start);
             var plugin = require(pluginPath);
             plugin.templates = dot.process({path: pluginFolder});
             if (plugin.templates.service) console.log(plugin.templates.service.toString());
             validatePlugin(plugin, pluginFolder);
-            allPlugins.push(plugin, pluginPath);
+            plugin.config = configLoader.get(plugin.plugin_name); // Attach config of plugin to plugin
+            console.log(plugin.config);
+            allPlugins.push(plugin);
         }
     });
     Plugins.allPlugins = allPlugins;
@@ -72,6 +76,33 @@ Plugins.getPlugin = function (name) {
     console.log("PLUGIN NOT FOUND:" + name);
 };
 
+Plugins.getPluginForTarget = function (target) {
+    var allPlugins = Plugins.allPlugins;
+    for (var i = 0; i < allPlugins.length; i++) {
+        var plugin = allPlugins[i];
+        if(plugin.config && plugin.config.targets && plugin.config.targets.indexOf(target) >= 0){
+            return plugin;
+        }
+    }
+    console.log("PLUGIN FOR TARGET NOT FOUND:" + target);
+};
+
+Plugins.getPluginDevicesByLocation = function (locations, plugin) {
+    var devicesInLocation = [];
+    var allDevices = configLoader.get("Devices");
+    for (var prop in allDevices) {
+        var deviceLocation = allDevices[prop].location;
+        for (var i = 0; i < locations.length; i++) {
+            if(deviceLocation.toLowerCase() === locations[i].toLowerCase())
+                devicesInLocation.push(prop);
+        }
+        
+    }
+    console.log(devicesInLocation);
+    return _.intersection(devicesInLocation, plugin.config.devices);
+
+};
+
 Plugins.getService = function (plugin_name, service_name) {
     var plugin = Plugins.getPlugin(plugin_name);
     var pluginservices = plugin.services;
@@ -89,7 +120,10 @@ Plugins.findServiceByName = function (service_name) {
             return allServices[i];
         }
     }
+    return null;
 };
+
+
 
 function generateServiceId(pluginName, serviceName){
     var service_id = pluginName+serviceName;

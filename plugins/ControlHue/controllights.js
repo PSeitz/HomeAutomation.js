@@ -1,17 +1,23 @@
 var hue = require("node-hue-api"),
     HueApi = hue.HueApi,
     lightState = hue.lightState;
-var _=require('lodash');
-
+var _= require('lodash');
 var yaml = require('js-yaml');
+var configLoader = require('../../configloader');
+var config = configLoader.get("Lights");
 
-var config = require('../../configloader')("ControlHue");
+var api = new HueApi(config.hostname, config.token);
+
+//Initial load all lights
+var hueLights;
+api.lights(function(err, lights) {
+    hueLights = lights;
+});
+
 
 var controlLights = function(result, lightstate, matching) {
     console.log(JSON.stringify(lightstate, null, 2));
-    
     var lights = result.lights;
-
     for (var i = 0; i < lights.length; i++) {
         if( matches(lights[i].name, matching) ){
             // lightstate.on = true;
@@ -50,13 +56,20 @@ var displayResult = function(result) {
 var displayError = function(err) {
     console.log(err);
 };
-var only = function(onLamps){
-    var off = _.difference(config.devices, onLamps);
-    controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254, "hue": 15760, "saturation":93}, onLamps);
-    controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
+
+var lightOn = function(lights){
+    controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254}, lights);
 };
-var lightUp = function(){
-    controlLights(hueLights, {"transitiontime": 60, "bri": 254, "on": true, "hue": 15760, "saturation":93}, ["AZ", "Flur", "WZ"]);
+var lightOff = function(lights){
+    controlLights(hueLights, {"transitiontime": 1, "on": false, "bri": 254}, lights);
+};
+
+var only = function(onLamps){
+    var offLamps = _.difference(config.devices, onLamps);
+    lightOn(onLamps);
+    lightOff(offLamps);
+    // controlLights(hueLights, {"transitiontime": 1, "on": true, "bri": 254, "hue": 15760, "saturation":93}, onLamps); //"hue": 15760, "saturation":93
+    // controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
 
 exports.getName = function(){
@@ -78,11 +91,17 @@ exports.services = function(){
     return actions;
 };
 
-var api = new HueApi(config.hostname, config.token);
 
-//Initial load all lights
-var hueLights;
-api.lights(function(err, lights) {
-    hueLights = lights;
-});
+
+exports.commandApi = function(command){
+    var lamps = command.devices || config.devices;
+
+    if (command.action == "turnon") {
+        lightOn(lamps);
+    }
+    if (command.action == "turnoff") {
+        lightOff(lamps);
+    }
+};
+
 

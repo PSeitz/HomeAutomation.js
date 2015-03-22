@@ -1,12 +1,10 @@
-ControlHue: 
+Lights: 
     hostname: "192.168.0.59"
     token: "3cae5b382976779f2f30cce81ea78faf"
+    targets: 
+        - Licht
+        - Lichter
     devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
-    Rooms:
-        Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
-        Schlafzimmer: ["SZ I", "SZ O 1"]
-        Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
-        Flur: [ "Flur"]
     services:
         Alle Aus: []
         Alle An: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
@@ -15,10 +13,7 @@ ControlHue:
         Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
         Flur: [ "Flur"]
 Wol:
-    Rooms:
-        Arbeitszimmer: ["Nas"]
-    devices: 
-        Nas: 'bc:5f:f4:cd:e0:3b'
+    devices: ["Nas"]
     services:
         Nas: Nas
 XBMC: 
@@ -27,6 +22,9 @@ XBMC:
         Random FamilyGuy: "Family Guy"
 Harmony Hub: 
     ip: '192.168.0.32'
+    devices: ["Fernseher"]
+    targets: 
+        - Fernseher
     services:
         Fernsehen: 
             activity: 'FERNSEHEN'
@@ -34,35 +32,74 @@ Harmony Hub:
         Fernseher ausschalten:
             activity: 'FERNSEHEN'
             action: off
-Yamaha: world
+Yamaha: 
+    devices: ["Receiver"]
+    targets: 
+        - Verstärker
+        - Receiver
+    ip: '192.168.0.25'
 Speech:
     -
       match: ["Alle Lichter An"]
-      action:
-        service: Alle An
+      services: 
+        - Alle An
     -
       match: ["Alle Lichter Aus"]
-      action:
-        service: Alle Aus
+      services: 
+        - Alle Aus
     -
       match: ["Licht an"]
-      action:
-        service: Wohnzimmer
+      services: 
+        - Wohnzimmer
     -
       match: ["Gute Nacht"]
-      action:
-        service: [Alle Aus, Fernsehen Stop]
+      services: 
+        - Alle Aus
+        - Fernsehen Stop
     -
       match: ["abgehts"]
-      action:
-        service: Wohnzimmer
+      services: 
+        - Wohnzimmer
     -
       match: ["テレビ お願いします"]
-      action:
-        service: Fernsehen
+      services: 
+        - Fernsehen
     -
       match: ["テレビ 終わって お願いします", "テレビ 終わってください", "テレビ スイッチを切るお願いします"]
-      action:
-        service: Fernseher ausschalten
-Rooms: [Wohnzimmer, Schlafzimmer, Arbeitszimmer, Flur]
-Devices: [XBMC Schlafzimmer, Nas, WZ Links, WZ Rechts, WZ Back, WZ Back Links, Flur, SZ I, SZ O 1, AZ Vorne, AZ Hinten]
+      services: 
+        - Fernseher ausschalten
+Rooms: 
+    - Wohnzimmer
+    - Schlafzimmer
+    - Arbeitszimmer
+    - Flur
+Devices: 
+    Receiver:
+        location: Wohnzimmer 
+    Fernseher:
+        location: Wohnzimmer 
+    XBMC Schlafzimmer:
+        location: Schlafzimmer
+    Nas:
+        location: Arbeitszimmer
+        mac: 'bc:5f:f4:cd:e0:3b'
+    Fernseher:
+        location: Wohnzimmer 
+    WZ Links:
+        location: Wohnzimmer 
+    WZ Rechts:
+        location: Wohnzimmer 
+    WZ Back:
+        location: Wohnzimmer 
+    WZ Back Links:
+        location: Wohnzimmer 
+    Flur:
+        location: Flur 
+    SZ I:
+        location: Schlafzimmer 
+    SZ O 1:
+        location: Schlafzimmer 
+    AZ Vorne:
+        location: Arbeitszimmer 
+    AZ Hinten:
+        location: Schlafzimmer 

@@ -143,4 +143,6 @@ exports.services = function(){
     }];
 };
 
+exports.commandApi = function(command){
 
+};

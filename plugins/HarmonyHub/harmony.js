@@ -1,6 +1,6 @@
 var harmony = require('harmonyhubjs-client');
 
-var config = require('../../configloader')("Harmony Hub");
+var config = require('../../configloader').get("Harmony Hub");
 
 // harmony(config.ip)
 // .then(function(harmonyClient) {
@@ -68,40 +68,6 @@ function createfunc(service) {
 
 exports.services = function(){
     var actions = [];
-    // actions.push({
-    //     name: "Fernsehen",
-    //     action : function(){
-    //         harmony(config.ip)
-    //         .then(function(harmonyClient) {
-    //             harmonyClient.getActivities()
-    //             .then(function(activities) {
-    //                 activities.some(function(activity) {
-    //                     console.log(activity.label);
-    //                     if(activity.label === 'FERNSEHEN') {
-    //                         var id = activity.id;
-    //                         harmonyClient.startActivity(id);
-    //                         harmonyClient.end();
-    //                         return true;
-    //                     }
-    //                     return false;
-    //                 });
-    //             });
-    //         });
-    //     }
-    // });
-
-    // actions.push({
-    //     name: "Fernseh Aus",
-    //     action : function(){
-    //         harmony(config.ip)
-    //         .then(function(harmonyClient) {
-    //             console.log('Turning TV off');
-    //             harmonyClient.turnOff();
-    //             harmonyClient.end();
-    //         });
-    //     }
-    // });
-
     for (var prop in config.services) {
         var deviceName = config.services[prop];
         actions.push({
@@ -112,3 +78,6 @@ exports.services = function(){
     return actions;
 };
 
+exports.commandApi = function(command){
+
+};

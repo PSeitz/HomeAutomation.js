@@ -1,3 +1,5 @@
+console.time('ServerStart');
+
 var http = require('http');
 var express = require('express');
 var path = require('path');
@@ -70,7 +72,6 @@ var renderDotTemplate = function(bodyfun, templateData){
     return render.layout(templateData);
 };
 
-
 // app.ws('/LightsWohnzimmer', function(ws) {
 //     // ws.on('message', function(msg) {
 //     //     console.log('echo received' + msg);
@@ -78,7 +79,6 @@ var renderDotTemplate = function(bodyfun, templateData){
 //     // });
 //     ws.send("LightsWohnzimmer");
 // });
-
 
 app.get('/', function(req, res) {
     var homeservices = plugins.getHome();
@@ -131,15 +131,6 @@ allPlugins.forEach(function (element, index, array) {
 // });
 
 
-// app.get("/speech/:s1/:s2/:s3/:s4/:s5/:s6/:s7", function(req, res) {
-//     // var speech = req.params.s1;
-//     console.log("YEAH");
-//     console.log(req.params.s1);
-//     console.log(req.params.s2);
-//     console.log(req.params.s3);
-//     console.log(req.params.s4);
-// });
-
 app.post("/speech/", function(req, res) {
 	var speech = req.body;
     console.log(speech);
@@ -182,7 +173,7 @@ app.get("/download/:system/:id/:name", function(req, res) {
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
+console.timeEnd('ServerStart');
 
 
 

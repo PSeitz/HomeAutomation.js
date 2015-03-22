@@ -1,6 +1,6 @@
 var wol = require('wake_on_lan');
 
-var config = require('../../configloader')("Wol");
+var config = require('../../configloader').get("Wol");
 
 var omv ='bc:5f:f4:cd:e0:3b';
 var htpc = 'BC-5F-F4-84-D7-B7';
@@ -14,7 +14,7 @@ var wakeHTPC = function(){
 };
 
 exports.getName = function(){
-    return "WOL";
+    return "Wol";
 };
 
 // exports.services = function(){
@@ -45,4 +45,8 @@ exports.services = function(){
 
 exports.settings = function(){
     return "settings.html";
+};
+
+exports.commandApi = function(command){
+
 };
