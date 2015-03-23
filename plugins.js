@@ -29,18 +29,15 @@ Plugins.loadPlugins = function() {
     var allPlugins = [];
     fs.readdirSync(pluginsFolder).forEach(function(file) {
         var pluginFolder = path.join(__dirname,pluginsFolder, file);
-        console.log(pluginFolder);
         var pathToConfig = path.join(pluginFolder, ".homeauto.json"); //if there is a homeauto.json, there is a plugin
-        console.log(pathToConfig);
         if (fs.existsSync(pathToConfig)) {
             var pluginConfig = require(pathToConfig);
             var pluginPath = path.join(pluginFolder, pluginConfig.start);
             var plugin = require(pluginPath);
             plugin.templates = dot.process({path: pluginFolder});
-            if (plugin.templates.service) console.log(plugin.templates.service.toString());
+            // if (plugin.templates.service) console.log(plugin.templates.service.toString());
             validatePlugin(plugin, pluginFolder);
             plugin.config = configLoader.get(plugin.plugin_name); // Attach config of plugin to plugin
-            console.log(plugin.config);
             allPlugins.push(plugin);
         }
     });
@@ -101,7 +98,6 @@ Plugins.getPluginDevicesByLocation = function (locations, plugin) {
         }
         
     }
-    console.log(devicesInLocation);
     return _.intersection(devicesInLocation, plugin.config.devices);
 };
 

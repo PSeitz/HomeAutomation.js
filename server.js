@@ -105,7 +105,7 @@ var allServices = plugins.getAllServices();
 
 //Add Service paths
 allServices.forEach(function (element, index, array) {
-    console.log(element.service_id);
+    // console.log(element.service_id);
     app.get("/"+element.service_id, function(req, res) {
         res.send('hehehe!');
         if (element.action) element.action();

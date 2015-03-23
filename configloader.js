@@ -4,7 +4,6 @@ var _ = require('lodash');
 // Get document, or throw exception on error
 try {
     var doc = yaml.safeLoad(fs.readFileSync('config.yml', 'utf8'));
-    console.log(doc);
 
     var service = {};
 

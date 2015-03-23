@@ -2,36 +2,6 @@ var harmony = require('harmonyhubjs-client');
 
 var config = require('../../configloader').get("Harmony Hub");
 
-// harmony(config.ip)
-// .then(function(harmonyClient) {
-//     harmonyClient.isOff()
-//     .then(function(off) {
-//         if(off) {
-//             console.log('Currently off. Turning TV on.');
-
-//             harmonyClient.getActivities()
-//             .then(function(activities) {
-//                 activities.some(function(activity) {
-//                     console.log(activity.label);
-//                     if(activity.label === 'FERNSEHEN') {
-//                         var id = activity.id;
-//                         harmonyClient.startActivity(id);
-//                         harmonyClient.end();
-//                         return true;
-//                     }
-//                     return false;
-//                 });
-//             });
-//         } else {
-//             console.log('Currently on. Turning TV off');
-//             harmonyClient.turnOff();
-//             harmonyClient.end();
-//         }
-//     });
-// });
-
-
-
 exports.getName = function(){
     return "Harmony Hub";
 };
@@ -42,7 +12,7 @@ function turnOn(activityName) {
         harmonyClient.getActivities()
         .then(function(activities) {
             activities.some(function(activity) {
-                console.log(activity.label);
+                // console.log(activity.label);
                 if(activity.label.toLowerCase() === activityName.toLowerCase()) {
                     var id = activity.id;
                     harmonyClient.startActivity(id);
@@ -87,12 +57,15 @@ exports.services = function(){
 };
 
 exports.commandApi = function(command){
-    var lamps = command.devices || config.devices;
-
-    if (command.action == "turnon") {
-        turnOn();
+    
+    if (command.action == "turnon" && command.target) {
+        turnOn(command.target);
+        return;
     }
     if (command.action == "turnoff") {
         turnOff();
+        return;
     }
+
+    console.log("Not enough info for harmony plugin:" + command);
 };

@@ -31,10 +31,10 @@ Harmony Hub:
         - Fernsehen
     services:
         Fernsehen: 
-            activity: 'FERNSEHEN'
+            activity: 'Fernsehen'
             action: on
         Fernseher ausschalten:
-            activity: 'FERNSEHEN'
+            activity: 'Fernsehen'
             action: off
     commands: 
         - turnon
@@ -113,4 +113,4 @@ Devices:
     AZ Vorne:
         location: Arbeitszimmer 
     AZ Hinten:
-        location: Schlafzimmer 
+        location: Arbeitszimmer 
