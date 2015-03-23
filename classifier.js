@@ -114,7 +114,6 @@ service.ClassifyWord = function(word){
 
     }
 
-
 };
 
 
