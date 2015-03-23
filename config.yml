@@ -3,7 +3,6 @@ Lights:
     token: "3cae5b382976779f2f30cce81ea78faf"
     targets: 
         - Licht
-        - Lichter
     devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
     services:
         Alle Aus: []
@@ -12,6 +11,11 @@ Lights:
         Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
         Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
         Flur: [ "Flur"]
+    commands: 
+        - turnon
+        - turnoff
+        - increase
+        - decrease
 Wol:
     devices: ["Nas"]
     services:
@@ -24,7 +28,7 @@ Harmony Hub:
     ip: '192.168.0.32'
     devices: ["Fernseher"]
     targets: 
-        - Fernseher
+        - Fernsehen
     services:
         Fernsehen: 
             activity: 'FERNSEHEN'
@@ -32,12 +36,19 @@ Harmony Hub:
         Fernseher ausschalten:
             activity: 'FERNSEHEN'
             action: off
+    commands: 
+        - turnon
+        - turnoff
+        - switchto
 Yamaha: 
     devices: ["Receiver"]
     targets: 
-        - Verstärker
         - Receiver
     ip: '192.168.0.25'
+    commands: 
+        - play
+        - increase
+        - decrease
 Speech:
     -
       match: ["Alle Lichter An"]

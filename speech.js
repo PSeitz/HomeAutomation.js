@@ -110,11 +110,9 @@ function advancedMeaningRecognition(speech){
     console.log(result.action);
     console.log(result.locations);
 
-    console.log("YOOOOOOO");
-
     for (var i = 0; i < result.targets.length; i++) {
         var plugin = plugins.getPluginForTarget(result.targets[i]);
-        var devices =plugins.getPluginDevicesByLocation(result.locations, plugin);
+        var devices = plugins.getPluginDevicesByLocation(result.locations, plugin);
         console.log(devices);
         var command = {
             target:result.targets[i],
@@ -126,6 +124,8 @@ function advancedMeaningRecognition(speech){
     }
 
 }
+
+advancedMeaningRecognition("Das ist ein Licht");
 
 // setTimeout(function(){
 //     advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");

@@ -36,32 +36,40 @@ exports.getName = function(){
     return "Harmony Hub";
 };
 
+function turnOn(activityName) {
+    harmony(config.ip)
+    .then(function(harmonyClient) {
+        harmonyClient.getActivities()
+        .then(function(activities) {
+            activities.some(function(activity) {
+                console.log(activity.label);
+                if(activity.label.toLowerCase() === activityName.toLowerCase()) {
+                    var id = activity.id;
+                    harmonyClient.startActivity(id);
+                    harmonyClient.end();
+                    return true;
+                }
+                return false;
+            });
+        });
+    });
+}
+
+function turnOff() {
+    harmony(config.ip)
+    .then(function(harmonyClient) {
+        console.log('Turning TV off');
+        harmonyClient.turnOff();
+        harmonyClient.end();
+    });
+}
+
 function createfunc(service) {
     return function() {
         if (service.action == "off") {
-             harmony(config.ip)
-            .then(function(harmonyClient) {
-                console.log('Turning TV off');
-                harmonyClient.turnOff();
-                harmonyClient.end();
-            });
+            turnOff();
         }else{
-            harmony(config.ip)
-            .then(function(harmonyClient) {
-                harmonyClient.getActivities()
-                .then(function(activities) {
-                    activities.some(function(activity) {
-                        console.log(activity.label);
-                        if(activity.label === service.activity) {
-                            var id = activity.id;
-                            harmonyClient.startActivity(id);
-                            harmonyClient.end();
-                            return true;
-                        }
-                        return false;
-                    });
-                });
-            });
+            turnOn(service.activity);
         }
     };
 }
@@ -79,5 +87,12 @@ exports.services = function(){
 };
 
 exports.commandApi = function(command){
+    var lamps = command.devices || config.devices;
 
+    if (command.action == "turnon") {
+        turnOn();
+    }
+    if (command.action == "turnoff") {
+        turnOff();
+    }
 };

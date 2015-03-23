@@ -80,8 +80,11 @@ Plugins.getPluginForTarget = function (target) {
     var allPlugins = Plugins.allPlugins;
     for (var i = 0; i < allPlugins.length; i++) {
         var plugin = allPlugins[i];
-        if(plugin.config && plugin.config.targets && plugin.config.targets.indexOf(target) >= 0){
-            return plugin;
+        if(plugin.config && plugin.config.targets){
+            for (var j = 0; j < plugin.config.targets.length; j++) {
+                if(plugin.config.targets[j].toLowerCase() === target.toLowerCase())
+                    return plugin;
+            }
         }
     }
     console.log("PLUGIN FOR TARGET NOT FOUND:" + target);
@@ -100,7 +103,6 @@ Plugins.getPluginDevicesByLocation = function (locations, plugin) {
     }
     console.log(devicesInLocation);
     return _.intersection(devicesInLocation, plugin.config.devices);
-
 };
 
 Plugins.getService = function (plugin_name, service_name) {
