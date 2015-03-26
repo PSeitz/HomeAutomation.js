@@ -1,29 +1,35 @@
+var cld = require('cld');
 
-var verbs = {
-    play: ["abspielen", "spielen"],
-    switchto: ["umschalten"],
-    turnon: ["an", "anschalten", "aktivieren", "anknipsen", "anmachen"],
-    turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
-                "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"],
-    increase: ["erhöhen", "anheben", "lauter"],
-    decrease: ["leiser", "absenken", "reduzieren"]
-};
+var LanguageDetect = require('languagedetect');
+var lngDetector = new LanguageDetect();
 
+console.time('Timer Title');
 
-var service = {};
+var string = 'Das ist ein Test おねがいします Fernseher anschalten';
+cld.detect(string, function(err, result) {
+    console.log(result);
 
-service.getSynonym = function(name){
-
-    for (var prop in verbs) {
-        var synon = verbs[prop];
-        for (var i = 0; i < synon.length; i++) {
-            if(word.indexOf(synon[i].toLowerCase()) >= 0 ){
-                return {
-                    type: "intention",
-                    value: prop
-                };
-            }
-        }
+    var pos = 0;
+    for (var i = 0; i < result.chunks.length; i++) {
+        if (!result.chunks[i]) continue;
+        console.log(string.substr(pos, result.chunks[i].offset));
+        pos += result.chunks[i].offset;
     }
+    console.log(string.substr(pos, string.length));
 
-};
+});
+
+console.timeEnd('Timer Title');
+
+// console.log(lngDetector.getLanguages());
+
+// console.log(lngDetector.detect('This is a language recognition example'));
+// console.log(lngDetector.detect('Das ist ein Test'));
+// console.log(lngDetector.detect('ola hombre senior'));
+// console.log(lngDetector.detect('おねがいします'));
+
+
+var syn = require("germansynonyms");
+var synonyms = syn.getAllSynonyms("anschalten");
+
+console.log(synonyms);

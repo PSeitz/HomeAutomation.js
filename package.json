@@ -24,6 +24,7 @@
     "express": "~4.2.0",
     "express-ws": "^0.2.5",
     "fast-levenshtein": "^1.0.6",
+    "germansynonyms": "^1.0.1",
     "harmonyhubjs-client": "^1.1.3",
     "js-yaml": "^3.2.7",
     "lodash": "~2.4.1",
