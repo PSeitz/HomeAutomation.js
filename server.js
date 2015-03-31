@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var server = http.createServer(app);
-server.listen(80);
+server.listen(8080);
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());

@@ -101,6 +101,13 @@ Plugins.getPluginDevicesByLocation = function (locations, plugin) {
     return _.intersection(devicesInLocation, plugin.config.devices);
 };
 
+Plugins.getAllPluginDevices = function (plugin) {
+    if (!plugin) {
+        return;   
+    }
+    return plugin.config.devices;
+};
+
 Plugins.getService = function (plugin_name, service_name) {
     var plugin = Plugins.getPlugin(plugin_name);
     var pluginservices = plugin.services;

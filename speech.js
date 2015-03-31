@@ -100,19 +100,56 @@ function getAction(words, index){
 //          properties: viel
 //      }
 
-function advancedMeaningRecognition(speech){
-    var words = speech.split(" ");
+function isSynonym(word1, word2){
+    word1 = word1.toLowerCase();
+    word2 = word2.toLowerCase();
+    if (word1 == word2) {
+        return true;
+    }
+    return false;
+}
 
-    var result = classifier.ClassifySentence(words);
+function advancedMeaningRecognition(sentence){
+    
+    var words = sentence.split(" ");
+    var classifiedWords = [];
+    var allMod = false;
+
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        classifiedWords.push(classifier.ClassifyWord(words[i]));
+        if (isSynonym(word, "alle")) {
+            allMod = true;
+        }
+    }
+
+    var result = {};
+    result.locations = [];
+    result.targets = [];
+
+    for (i = 0; i < classifiedWords.length; i++) {
+        var classifiedWord = classifiedWords[i];
+        if (classifiedWord.type == "intention") {
+            result.action = classifiedWord.value;
+        }
+        if (classifiedWord.type == "target") {
+            result.targets.push(classifiedWord.value);
+        }
+        if (classifiedWord.type == "location") {
+            result.locations.push(classifiedWord.value);
+        }
+    }
 
     console.log("targets " + result.targets);
-    // console.log(result.targets);
     console.log("action " +result.action);
     console.log("locations "+result.locations);
 
-    for (var i = 0; i < result.targets.length; i++) {
+    for (i = 0; i < result.targets.length; i++) {
         var plugin = plugins.getPluginForTarget(result.targets[i]);
         var devices = plugins.getPluginDevicesByLocation(result.locations, plugin);
+        if (devices.length === 0 && allMod) {
+            devices = plugins.getAllPluginDevices(plugin);
+        }
         var command = {
             target:result.targets[i],
             action: result.action,
@@ -127,7 +164,7 @@ function advancedMeaningRecognition(speech){
 
 // setTimeout(function(){
 //     // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
-//     advancedMeaningRecognition("Licht aus im Arbeitszimmer");
+//     advancedMeaningRecognition("Licht an im Arbeitszimmer");
 // }, 3000);
 
 

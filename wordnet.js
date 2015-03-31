@@ -1,11 +1,10 @@
 var cld = require('cld');
 
-var LanguageDetect = require('languagedetect');
-var lngDetector = new LanguageDetect();
-
 console.time('Timer Title');
 
-var string = 'Das ist ein Test おねがいします Fernseher anschalten';
+var string = 'Das ist ein Test おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします';
+
+// var string = 'Zehn Bier おねがいします';
 cld.detect(string, function(err, result) {
     console.log(result);
 
@@ -29,7 +28,11 @@ console.timeEnd('Timer Title');
 // console.log(lngDetector.detect('おねがいします'));
 
 
+
 var syn = require("germansynonyms");
+
+console.time('Timer Title2');
 var synonyms = syn.getAllSynonyms("anschalten");
 
+console.timeEnd('Timer Title2');
 console.log(synonyms);

@@ -1,20 +1,8 @@
 var service = {};
 var _=require('lodash');
 var levenshtein = require('fast-levenshtein');
-
-var synonyms = {
-    play: ["abspielen", "spielen"],
-    switchto: ["umschalten"],
-    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen"],
-    turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
-                "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"],
-    increase: ["erhöhen", "anheben", "lauter"],
-    decrease: ["leiser", "absenken", "reduzieren"],
-    //targets
-    fernsehen:["fernseher", "fernsehen", "tv"],
-    licht:["lichter", "lights"],
-    receiver:["Verstärker"]
-};
+var germansynonyms = require('germansynonyms');
+var cld = require('cld');
 
 var configLoader = require('./configloader');
 
@@ -22,13 +10,20 @@ var configLoader = require('./configloader');
 var allTargets = configLoader.getAllTargets();
 var allLocations = configLoader.getAllLocations();
 var allCommands = configLoader.getAllCommands();
+var synonym_hints = configLoader.get("SynonymHints");
 
-var apiLanguage = allTargets.concat(allLocations).concat(allCommands);
+var langs = configLoader.get("Languages");
 
 // console.log("apiLanguage");
 // console.log(apiLanguage);
 
-service.ClassifySentence = function(words){
+service.ClassifySentence = function(sentence){
+    var words = sentence.split(" ");
+
+    // cld.detect(string, function(err, result) {
+    //     console.log(result);
+    // });
+
     var classifiedWords = [];
     for (var i = 0; i < words.length; i++) {
         classifiedWords.push(service.ClassifyWord(words[i]));
@@ -54,19 +49,35 @@ service.ClassifySentence = function(words){
     return result;
 };
 
+function reduceSynonymToAPIName(word){
+    if (!word) return word;
+    for (var prop in synonym_hints) {
+        if(word === prop.toLowerCase()) return prop;
+        
+        hit = contains_lowerCase(synonym_hints[prop], word, true);
+        if (hit) return prop;
+    }
+    return word;
+}
+
+function buildLanguageWithHints(){
+    var apiLanguage = allTargets.concat(allLocations).concat(allCommands);
+    for (var name in synonym_hints) { // adding synonym_hints
+        var hint = synonym_hints[name];
+        apiLanguage = apiLanguage.concat(hint);
+    }
+    return apiLanguage;
+}
+
+var apiLanguage = buildLanguageWithHints();
+
 
 function isPluginLanguageOrSynonym(word){
     word = word.toLowerCase();
 
     var hit = contains_lowerCase(apiLanguage, word, true);
+    hit = reduceSynonymToAPIName(hit);
     if (hit) return hit;
-
-    for (var prop in synonyms) {
-        if(word === prop.toLowerCase()) return prop;
-        
-        hit = contains_lowerCase(synonyms[prop], word, true);
-        if (hit) return prop;
-    }
     return undefined;
 }
 

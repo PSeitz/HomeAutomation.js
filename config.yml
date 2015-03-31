@@ -3,6 +3,7 @@ Lights:
     token: "3cae5b382976779f2f30cce81ea78faf"
     targets: 
         - Licht
+        - Lichter
     devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
     services:
         Alle Aus: []
@@ -44,6 +45,7 @@ Yamaha:
     devices: ["Receiver"]
     targets: 
         - Receiver
+        - Musik
     ip: '192.168.0.25'
     commands: 
         - play
@@ -114,3 +116,18 @@ Devices:
         location: Arbeitszimmer 
     AZ Hinten:
         location: Arbeitszimmer 
+Languages: # ISO 639-1
+    - de
+    - en
+    - ja
+SynonymHints:
+    play: ["abspielen", "spielen"]
+    switchto: ["umschalten"]
+    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen"]
+    turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
+                "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"]
+    increase: ["erhöhen", "anheben", "lauter", "hell", "heller"]
+    decrease: ["leiser", "absenken", "reduzieren", "dimmen", "dimme"]
+    fernsehen: ["fernseher", "fernsehen", "tv"]
+    licht: ["lichter", "lights"]
+    receiver: ["Verstärker"]
