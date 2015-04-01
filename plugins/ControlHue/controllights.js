@@ -14,18 +14,25 @@ api.lights(function(err, result) {
     hueLights = result.lights;
 });
 
-
-var controlLights = function(result, lightstate, matching) {
-    console.log(JSON.stringify(allLights, null, 2));
+function getLightsForName(allLights, lights){
+    var matchingLights = [];
     for (var i = 0; i < allLights.length; i++) {
-        if( matches(allLights[i].name, matching) ){
+        if( matches(allLights[i].name, lights) )
+            matchingLights.push(allLights[i]);
+    }
+    return matchingLights;
+}
+
+var controlLights = function(allLights, lightstate, matching) {
+    console.log(JSON.stringify(allLights, null, 2));
+    var lights = getLightsForName(allLights, matching);
+    for (var i = 0; i < lights.length; i++) {
             // lightstate.on = true;
-            api.setLightState(allLights[i].id, lightstate, function(err, result) {
-                // if (err) console.log(err.toString());
-                // displayResult(result);
-                console.log('light set');
-            });
-        }
+        api.setLightState(lights[i].id, lightstate, function(err, result) {
+            // if (err) console.log(err.toString());
+            // displayResult(result);
+            console.log('light set');
+        });
     }
 };
 
@@ -70,6 +77,23 @@ var only = function(onLamps){
     // controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
 
+var alterBrightness = function(deltaValue, matching){
+    var lights = getLightsForName(hueLights, matching);
+    for (var i = 0; i < lights.length; i++) {
+        var light = lights[i];
+        api.lightStatus(light.id, function(err, result) {
+            if (err) throw err;
+
+            var newbrightness = result.state.bri + deltaValue;
+            newbrightness = Math.min(newbrightness, 255);
+            newbrightness = Math.max(newbrightness, 0);
+            api.setLightState(lights[i].id, {"bri":newbrightness}, function(err, result) {});
+        });
+    }
+
+};
+
+
 exports.getName = function(){
     return "Lights";
 };
@@ -100,12 +124,12 @@ exports.commandApi = function(command){
     if (command.action == "turnoff") {
         lightOff(lamps);
     }
-    // if (command.action == "decrease") {
-    //     lightOff(lamps);
-    // }
-    // if (command.action == "increase") {
-    //     lightOff(lamps);
-    // }
+    if (command.action == "decrease") {
+        alterBrightness(-50);
+    }
+    if (command.action == "increase") {
+        alterBrightness(50);
+    }
 
     
 };
