@@ -10,18 +10,17 @@ var api = new HueApi(config.hostname, config.token);
 
 //Initial load all lights
 var hueLights;
-api.lights(function(err, lights) {
-    hueLights = lights;
+api.lights(function(err, result) {
+    hueLights = result.lights;
 });
 
 
 var controlLights = function(result, lightstate, matching) {
-    console.log(JSON.stringify(lightstate, null, 2));
-    var lights = result.lights;
-    for (var i = 0; i < lights.length; i++) {
-        if( matches(lights[i].name, matching) ){
+    console.log(JSON.stringify(allLights, null, 2));
+    for (var i = 0; i < allLights.length; i++) {
+        if( matches(allLights[i].name, matching) ){
             // lightstate.on = true;
-            api.setLightState(lights[i].id, lightstate, function(err, result) {
+            api.setLightState(allLights[i].id, lightstate, function(err, result) {
                 // if (err) console.log(err.toString());
                 // displayResult(result);
                 console.log('light set');
@@ -46,8 +45,7 @@ var matches = function(lightName, matches ){
 // var wohnzimmer = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"];
 // var schlafzimmer = ["SZ I", "SZ O 1"];
 // var arbeitszimmer = [ "AZ Vorne", "AZ Hinten"];
-
-var flur = [ "Flur"];
+// var flur = [ "Flur"];
 
 var displayResult = function(result) {
     console.log(JSON.stringify(result, null, 2));
@@ -102,6 +100,14 @@ exports.commandApi = function(command){
     if (command.action == "turnoff") {
         lightOff(lamps);
     }
+    // if (command.action == "decrease") {
+    //     lightOff(lamps);
+    // }
+    // if (command.action == "increase") {
+    //     lightOff(lamps);
+    // }
+
+    
 };
 
 
