@@ -17,7 +17,7 @@ api.lights(function(err, result) {
 function getLightsForName(allLights, lights){
     var matchingLights = [];
     for (var i = 0; i < allLights.length; i++) {
-        if( matches(allLights[i].name, lights) )
+        if( lights.indexOf(allLights[i].name) >= 0 )
             matchingLights.push(allLights[i]);
     }
     return matchingLights;
@@ -36,17 +36,17 @@ var controlLights = function(allLights, lightstate, matching) {
     }
 };
 
-var matches = function(lightName, matches ){
+// var matches = function(lightName, matching ){
 
-    if (Object.prototype.toString.call( matches ) === '[object Array]' ) {
-        for (var i = 0; i < matches.length; i++) {
-            if (lightName.indexOf(matches[i]) !== -1) return true;
-        }
-        return false;
-    }else{
-        return lightName.name.indexOf(matches) !== -1;
-    }
-};
+//     if (Object.prototype.toString.call( matching ) === '[object Array]' ) {
+//         for (var i = 0; i < matching.length; i++) {
+//             if (lightName.indexOf(matching[i]) !== -1) return true;
+//         }
+//         return false;
+//     }else{
+//         return lightName.name.indexOf(matching) !== -1;
+//     }
+// };
 
 // var allLamps = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"];
 // var wohnzimmer = ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"];
@@ -77,21 +77,24 @@ var only = function(onLamps){
     // controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
 
-var alterBrightness = function(deltaValue, matching){
-    var lights = getLightsForName(hueLights, matching);
+var alterBrightnessOfLamps = function(deltaValue, lamps){
+    var lights = getLightsForName(hueLights, lamps);
+    console.log(JSON.stringify(lights, null, 2));
     for (var i = 0; i < lights.length; i++) {
         var light = lights[i];
-        api.lightStatus(light.id, function(err, result) {
-            if (err) throw err;
-
-            var newbrightness = result.state.bri + deltaValue;
-            newbrightness = Math.min(newbrightness, 255);
-            newbrightness = Math.max(newbrightness, 0);
-            api.setLightState(lights[i].id, {"bri":newbrightness}, function(err, result) {});
-        });
+        alterBrightnessOfLamp(deltaValue, light);
     }
-
 };
+
+function alterBrightnessOfLamp(deltaValue, light){
+    api.lightStatus(light.id, function(err, result) {
+        if (err) throw err;
+        var newbrightness = result.state.bri + deltaValue;
+        newbrightness = Math.min(newbrightness, 255);
+        newbrightness = Math.max(newbrightness, 0);
+        api.setLightState(light.id, {"bri":newbrightness}, function(err, result) {});
+    });
+}
 
 
 exports.getName = function(){
@@ -114,7 +117,6 @@ exports.services = function(){
 };
 
 
-
 exports.commandApi = function(command){
     var lamps = command.devices || config.devices;
 
@@ -125,13 +127,12 @@ exports.commandApi = function(command){
         lightOff(lamps);
     }
     if (command.action == "decrease") {
-        alterBrightness(-50);
+        alterBrightnessOfLamps(-80, lamps);
     }
     if (command.action == "increase") {
-        alterBrightness(50);
+        alterBrightnessOfLamps(80, lamps);
     }
 
-    
 };
 
 
