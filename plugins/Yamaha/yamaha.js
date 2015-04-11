@@ -20,10 +20,17 @@ exports.services = function(){
 exports.commandApi = function(command){
     var lamps = command.devices || config.devices;
 
-    if (command.action == "turnon") {
-        lightOn(lamps);
+    // if (command.action == "turnon") {
+    //     lightOn(lamps);
+    // }
+    // if (command.action == "turnoff") {
+    //     lightOff(lamps);
+    // }
+
+    if (command.action == "increase") {
+        yomaha.volumeUp(50);
     }
-    if (command.action == "turnoff") {
-        lightOff(lamps);
+    if (command.action == "decrease") {
+        yomaha.volumeDown(50);
     }
 };

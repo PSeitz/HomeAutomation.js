@@ -3,6 +3,7 @@ var configLoader = require('./configloader');
 var classifier = require('./classifier');
 var config = configLoader.get("Speech");
 var levenshtein = require('fast-levenshtein');
+var _ = require('lodash');
 
 for (var i = 0; i < config.length; i++) {
     for (var j = 0; j < config[i].match.length; j++) {
@@ -126,6 +127,7 @@ function advancedMeaningRecognition(sentence){
     var result = {};
     result.locations = [];
     result.targets = [];
+    result.adjectives = [];
 
     for (i = 0; i < classifiedWords.length; i++) {
         var classifiedWord = classifiedWords[i];
@@ -137,6 +139,9 @@ function advancedMeaningRecognition(sentence){
         }
         if (classifiedWord.type == "location") {
             result.locations.push(classifiedWord.value);
+        }
+        if (classifiedWord.type == "adjective") {
+            result.adjectives.push(classifiedWord.value);
         }
     }
 
@@ -159,12 +164,17 @@ function advancedMeaningRecognition(sentence){
         plugin.commandApi(command);
     }
 
+    //If action applies to only one target
+    if (_.isEmpty(result.targets)) {
+        
+    }
+
 }
 
 
 // setTimeout(function(){
 //     // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
-//     advancedMeaningRecognition("Licht an im Arbeitszimmer");
+//     advancedMeaningRecognition("Licht aus im Arbeitszimmer");
 // }, 3000);
 
 
