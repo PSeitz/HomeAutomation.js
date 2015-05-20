@@ -136,7 +136,7 @@ exports.getName = function(){
 exports.services = function(){
     return [{
         action : function(){
-            playRandom("Family Guy", '192.168.0.39');
+            playRandom("Family Guy", '192.168.0.41');
             playRandom("Family Guy", '192.168.0.21');
         },
         name: "Random FamilyGuy"
