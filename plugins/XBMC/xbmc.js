@@ -1,6 +1,7 @@
 var querystring = require('querystring');
 var http = require('http');
 var _ = require('lodash');
+var config = require('../../configloader').get("XBMC");
 
 var cachedData;
 function getPostOptions(post_data_string, targetIP) {
@@ -136,8 +137,11 @@ exports.getName = function(){
 exports.services = function(){
     return [{
         action : function(){
-            playRandom("Family Guy", '192.168.0.41');
-            playRandom("Family Guy", '192.168.0.21');
+            for (var i = 0; i < config.ip.length; i++) {
+                var ip = config.ip[i];
+                console.log("Playing Family Guy on:"+ip);
+                playRandom("Family Guy", ip);
+            }
         },
         name: "Random FamilyGuy"
     }];

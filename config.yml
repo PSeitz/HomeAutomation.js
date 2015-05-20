@@ -22,7 +22,7 @@ Wol:
     services:
         Nas: Nas
 XBMC: 
-    ip: ['192.168.0.39', '192.168.0.21']
+    ip: ['192.168.0.41', '192.168.0.21']
     actions:
         Random FamilyGuy: "Family Guy"
 Harmony Hub: 
