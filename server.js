@@ -84,6 +84,7 @@ var renderDotTemplate = function(bodyfun, templateData){
 app.get('/', function(req, res) {
     var homeservices = plugins.getHome();
     var allPlugins = plugins.getAll();
+    console.log("print homeservices[i]");
     for (var i = 0; i < homeservices.length; i++) {
         console.log(homeservices[i]);
     }
@@ -147,6 +148,7 @@ app.post("/speech/", function(req, res) {
 
 app.get("/settings", function(req, res) {
     var allServices = plugins.getAllServices();
+    console.log(allServices);
     res.send(renderDotTemplate("settings", {
         services: allServices,
         plugins: allPlugins

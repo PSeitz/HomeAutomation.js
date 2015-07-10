@@ -146,17 +146,16 @@ function generateServiceId(pluginName, serviceName){
 */
 Plugins.getAllServices = function () {
     var allPlugins = Plugins.getAll();
-
     var allServices = [];
     for (var i = 0; i < allPlugins.length; i++) {
-
         var pluginservices = allPlugins[i].services;
-        _(pluginservices).forEach(function fillServiceInfo(service, plugin) {
+        for (var prop in pluginservices) {
+            var service = pluginservices[prop];
             service.plugin_name = allPlugins[i].plugin_name;
             service.service_id = generateServiceId(service.plugin_name,service.name);
             service.homescreen = sorting.getPositionForServiceId(service.service_id);
             service.plugin = allPlugins[i];
-        });
+        }
         allServices = _.union(allServices, pluginservices);
 
     }

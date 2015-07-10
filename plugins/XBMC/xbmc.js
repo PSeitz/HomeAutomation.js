@@ -135,16 +135,26 @@ exports.getName = function(){
 };
 
 exports.services = function(){
-    return [{
-        action : function(){
-            for (var i = 0; i < config.ip.length; i++) {
-                var ip = config.ip[i];
-                console.log("Playing Family Guy on:"+ip);
-                playRandom("Family Guy", ip);
-            }
+    return [
+        {
+            action : function(){
+                for (var i = 0; i < config.ip.length; i++) {
+                    var ip = config.ip[i];
+                    playRandom("Family Guy", ip);
+                }
+            },
+            name: "Random FamilyGuy"
         },
-        name: "Random FamilyGuy"
-    }];
+        {
+            action : function(){
+                for (var i = 0; i < config.ip.length; i++) {
+                    var ip = config.ip[i];
+                    playRandom("South Park", ip);
+                }
+            },
+            name: "Random SouthPark"
+        }
+    ];
 };
 
 exports.commandApi = function(command){

@@ -5,6 +5,8 @@ var _ = require('lodash');
 try {
     var doc = yaml.safeLoad(fs.readFileSync('config.yml', 'utf8'));
 
+    
+
     var service = {};
 
     service.get = function (name) {
@@ -38,6 +40,19 @@ try {
 
     service.getAllLocations = function () {
         return service.get("Rooms");
+    };
+
+    service.writeBack = function (config) {
+        var output = yaml.dump(config, {
+            indent: 4,
+            flowLevel: 3,
+            styles: {
+                '!!int': 'hexadecimal',
+                '!!null': 'camelcase'
+            }
+        });
+        fs.writeFileSync('config.yml', output, 'utf8');
+        doc = config;
     };
 
     module.exports = service;
