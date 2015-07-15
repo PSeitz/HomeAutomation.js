@@ -36,22 +36,20 @@ service.handleSpeech = function(speech){
     speech = speech.toLowerCase();
     var words = speech.split(" ");
 
+
+    // 1: Preconfigured Speech action
     for (var i = 0; i < config.length; i++) {
         for (var j = 0; j < config[i].match.length; j++) {
             var match = config[i].match[j];
             var distance = levenshtein.get(speech.toLowerCase(), match.toLowerCase());
             if (distance <= 1) {
-                // plugins.findServiceByName(config[i].services).action();
                 activateServicesByName(config[i].services);
                 return;
             }
-            // if (match.indexOf(speech) !== -1 || speech.indexOf(match) !== -1) {
-            //  plugins.findServiceByName(config[i].action.service).action();
-            //  return;
-            // }
         }
     }
 
+    // 2: Services which match the speech string
     var services = plugins.getAllServices();
     for (i = 0; i < services.length; i++) {
         var service = services[i];
@@ -59,12 +57,10 @@ service.handleSpeech = function(speech){
             service.action();
             return;
         }
-        // if (service.name.toLowerCase().indexOf(speech) !== -1 || speech.indexOf(service.name.toLowerCase()) !== -1) {
-        //  service.action();
-        //  return;
-        // }
     }
 
+
+    // 3: That's the real thang
     advancedMeaningRecognition(speech);
 
     console.log("No match found for" + speech);
@@ -110,19 +106,21 @@ function isSynonym(word1, word2){
     return false;
 }
 
-function advancedMeaningRecognition(sentence){
-    
-    var words = sentence.split(" ");
-    var classifiedWords = [];
+service.semanticResult = function(speech){
+
+    var words = speech.split(" ");  // Only speech with space supported
     var allMod = false;
 
     for (var i = 0; i < words.length; i++) {
-        var word = words[i];
-        classifiedWords.push(classifier.ClassifyWord(words[i]));
-        if (isSynonym(word, "alle")) {
+        if (isSynonym(words[i], "alle")) {
             allMod = true;
         }
     }
+
+    var classifiedWords = classifier.ClassifySentence(words);
+
+
+    var intents = [];
 
     var result = {};
     result.locations = [];
@@ -144,6 +142,47 @@ function advancedMeaningRecognition(sentence){
             result.adjectives.push(classifiedWord.value);
         }
     }
+
+    return result;
+
+};
+
+function advancedMeaningRecognition(speech){
+    
+    // var words = sentence.split(" "); // Only speech with space supported
+    // var classifiedWords = [];
+    // var allMod = false;
+
+    // for (var i = 0; i < words.length; i++) {
+    //     var word = words[i];
+    //     classifiedWords.push(classifier.ClassifyWord(words[i]));
+    //     if (isSynonym(word, "alle")) {
+    //         allMod = true;
+    //     }
+    // }
+
+    // var result = {};
+    // result.locations = [];
+    // result.targets = [];
+    // result.adjectives = [];
+
+    // for (i = 0; i < classifiedWords.length; i++) {
+    //     var classifiedWord = classifiedWords[i];
+    //     if (classifiedWord.type == "intention") {
+    //         result.action = classifiedWord.value;
+    //     }
+    //     if (classifiedWord.type == "target") {
+    //         result.targets.push(classifiedWord.value);
+    //     }
+    //     if (classifiedWord.type == "location") {
+    //         result.locations.push(classifiedWord.value);
+    //     }
+    //     if (classifiedWord.type == "adjective") {
+    //         result.adjectives.push(classifiedWord.value);
+    //     }
+    // }
+
+    var result = semanticResult(speech);
 
     console.log("targets " + result.targets);
     console.log("action " +result.action);

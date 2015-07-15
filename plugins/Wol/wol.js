@@ -42,3 +42,16 @@ exports.settings = function(){
 exports.commandApi = function(command){
 
 };
+
+/* Config  Example 
+
+
+Wol:
+    devices: ["Nas"]
+
+Devices: 
+    Nas:
+        location: Arbeitszimmer
+        mac: 'bc:5f:f4:cd:e0:3b'
+
+*/

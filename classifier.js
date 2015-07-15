@@ -14,8 +14,14 @@ var synonym_hints = configLoader.get("SynonymHints");
 
 var langs = configLoader.get("Languages");
 
-// console.log("apiLanguage");
-// console.log(apiLanguage);
+
+// build plugin parser
+// var fs = require("fs");
+// var jison = require("jison");
+
+// var bnf = fs.readFileSync("grammar.jison", "utf8");
+// var parser = new jison.Parser(bnf);
+
 
 service.ClassifySentence = function(sentence){
     var words = sentence.split(" ");
@@ -126,6 +132,40 @@ service.ClassifyWord = function(word){
     }
 
 };
+
+/* LoL */
+function isSynonym(word1, word2){
+    word1 = word1.toLowerCase();
+    word2 = word2.toLowerCase();
+    if (word1 == word2) {
+        return true;
+    }
+    return false;
+}
+
+
+/*
+*   {
+*       type: "intention",
+*       value: "turnon"  
+*   }
+*/
+service.ClassifySentence = function(words){
+    var wordParts = [];
+
+    var allMod = false;
+
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+        wordParts.push(service.ClassifyWord(words[i]));
+        if (isSynonym(word, "alle")) {
+            allMod = true;
+        }
+    }
+
+    return wordParts;
+};
+
 
 
 
