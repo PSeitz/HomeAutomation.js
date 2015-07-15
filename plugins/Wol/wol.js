@@ -1,11 +1,11 @@
 var wol = require('wake_on_lan');
 
-var config = require('../../configloader').get("Wol");
-
-var omv ='bc:5f:f4:cd:e0:3b';
-var htpc = 'BC-5F-F4-84-D7-B7';
+var config = require('../../configloader');
+var wolConfig = config.get("Wol");
+var devices = config.get("Devices");
 
 var wakeNas = function(){
+    console.log(var1);
     wol.wake(omv);
 };
 
@@ -17,27 +17,19 @@ exports.getName = function(){
     return "Wol";
 };
 
-// exports.services = function(){
-//     return [{
-//         action : wakeNas,
-//         name: "Nas On"
-//     },{
-//         action : wakeHTPC,
-//         name: "HTPC On"
-//     }];
-// };
-
 function createfunc(mac_adress) {
-    return function() { wol.wake(mac_adress); };
+    return function() {
+        console.log("Waking "+mac_adress);
+        wol.wake(mac_adress);
+    };
 }
-
 exports.services = function(){
     var actions = [];
-    for (var prop in config.services) {
-        var deviceName = config.services[prop];
+    for (var prop in wolConfig.services) {
+        var deviceName = wolConfig.services[prop];
         actions.push({
             name: prop,
-            action : createfunc(config.devices[deviceName])
+            action : createfunc(devices[deviceName])
         });
     }
     return actions;
