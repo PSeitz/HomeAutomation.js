@@ -23,9 +23,9 @@ function getLightsForName(allLights, lights){
     return matchingLights;
 }
 
-var controlLights = function(allLights, lightstate, matching) {
+var controlLights = function(allLights, lightstate, lamps) {
     console.log(JSON.stringify(allLights, null, 2));
-    var lights = getLightsForName(allLights, matching);
+    var lights = getLightsForName(allLights, lamps);
     for (var i = 0; i < lights.length; i++) {
             // lightstate.on = true;
         api.setLightState(lights[i].id, lightstate, function(err, result) {
@@ -77,14 +77,45 @@ var only = function(onLamps){
     // controlLights(hueLights, {"transitiontime": 1, "on": false}, off);
 };
 
-var alterBrightnessOfLamps = function(deltaValue, lamps){
+// var alterBrightnessOfLamps = function(deltaValue, lamps){
+//     var lights = getLightsForName(hueLights, lamps);
+//     console.log(JSON.stringify(lights, null, 2));
+    // for (var i = 0; i < lights.length; i++) {
+    //     var light = lights[i];
+    //     alterBrightnessOfLamp(deltaValue, light);
+    // }
+
+    
+// };
+
+var alterLampsWithAction = function(value, lamps, action){
     var lights = getLightsForName(hueLights, lamps);
     console.log(JSON.stringify(lights, null, 2));
     for (var i = 0; i < lights.length; i++) {
         var light = lights[i];
-        alterBrightnessOfLamp(deltaValue, light);
+        // action(value, light);
     }
+
+    function handleQueue()
+    {
+        var light = lights.pop();
+        if (light) {
+            action(value, light); 
+        }
+        if (lights.length === 0) {
+            clearInterval(interval); 
+        }
+    }
+
+    var interval = setInterval(handleQueue, 350);
+
 };
+
+function setLightState (lightstate, light) {
+    api.setLightState(light.id, lightstate, function(err, result) {
+        console.log('light set');
+    });
+}
 
 function alterBrightnessOfLamp(deltaValue, light){
     api.lightStatus(light.id, function(err, result) {
@@ -96,13 +127,25 @@ function alterBrightnessOfLamp(deltaValue, light){
     });
 }
 
+function setBrightnessOfLamp(newbrightness, light){
+    newbrightness = Math.min(newbrightness, 255);
+    newbrightness = Math.max(newbrightness, 0);
+    api.setLightState(light.id, {"bri":newbrightness}, function(err, result) {});
+}
+
 
 exports.getName = function(){
     return "Lights";
 };
 
-function createfunc(lights) {
-    return function() { only(lights); };
+function onlyWrapper(onLamps) {
+    return function() { 
+        // only(onLamps);
+        var offLamps = _.difference(config.devices, onLamps);
+        alterLampsWithAction({"transitiontime": 0, "on": true, "bri": 254}, onLamps, setLightState);
+        alterLampsWithAction({"transitiontime": 0, "on": false}, offLamps, setLightState);
+
+    };
 }
 
 exports.services = function(){
@@ -110,7 +153,7 @@ exports.services = function(){
     for (var prop in config.services) {
         actions.push({
             name: prop,
-            action : createfunc(config.services[prop])
+            action : onlyWrapper(config.services[prop])
         });
     }
     return actions;
@@ -120,18 +163,38 @@ exports.services = function(){
 exports.commandApi = function(command){
     var lamps = command.devices || config.devices;
 
-    if (command.action == "turnon") {
-        lightOn(lamps);
+    console.log(command);
+
+    if (command.value) {
+        var value = command.value;
+        if (command.valueType === "percent")
+            value = command.value * 255 / 100;
+        
+        // setBrightnessOfLamps(value, lamps);
+
+        alterLampsWithAction(value, lamps, setBrightnessOfLamp);
+    }else{
+
+        if (command.action == "turnon") {
+            // lightOn(lamps);
+            alterLampsWithAction({"transitiontime": 0, "on": true, "bri": 254}, lamps, setLightState);
+            
+        }
+        if (command.action == "turnoff") {
+            // lightOff(lamps);
+            alterLampsWithAction({"transitiontime": 0, "on": false}, lamps, setLightState);
+        }
+        if (command.action == "decrease") {
+            // alterBrightnessOfLamps(-80, lamps);
+            alterLampsWithAction(-80, lamps, alterBrightnessOfLamp);
+        }
+        if (command.action == "increase") {
+            // alterBrightnessOfLamps(80, lamps);
+            alterLampsWithAction(80, lamps, alterBrightnessOfLamp);
+        }
+
     }
-    if (command.action == "turnoff") {
-        lightOff(lamps);
-    }
-    if (command.action == "decrease") {
-        alterBrightnessOfLamps(-80, lamps);
-    }
-    if (command.action == "increase") {
-        alterBrightnessOfLamps(80, lamps);
-    }
+
 
 };
 

@@ -15,52 +15,45 @@ var synonym_hints = configLoader.get("SynonymHints");
 var langs = configLoader.get("Languages");
 
 
-// build plugin parser
-// var fs = require("fs");
-// var jison = require("jison");
+// service.ClassifySentence = function(sentence){
+//     var words = sentence.split(" ");
 
-// var bnf = fs.readFileSync("grammar.jison", "utf8");
-// var parser = new jison.Parser(bnf);
+//     // cld.detect(string, function(err, result) {
+//     //     console.log(result);
+//     // });
 
+//     var classifiedWords = [];
+//     for (var i = 0; i < words.length; i++) {
+//         classifiedWords.push(service.ClassifyWord(words[i]));
+//     }
 
-service.ClassifySentence = function(sentence){
-    var words = sentence.split(" ");
+//     var result = {};
+//     result.locations = [];
+//     result.targets = [];
 
-    // cld.detect(string, function(err, result) {
-    //     console.log(result);
-    // });
+//     for (i = 0; i < classifiedWords.length; i++) {
+//         var classifiedWord = classifiedWords[i];
+//         if (classifiedWord.type == "intention") {
+//             result.action = classifiedWord.value;
+//         }
+//         if (classifiedWord.type == "target") {
+//             result.targets.push(classifiedWord.value);
+//         }
+//         if (classifiedWord.type == "location") {
+//             result.locations.push(classifiedWord.value);
+//         }
+//     }
 
-    var classifiedWords = [];
-    for (var i = 0; i < words.length; i++) {
-        classifiedWords.push(service.ClassifyWord(words[i]));
-    }
-
-    var result = {};
-    result.locations = [];
-    result.targets = [];
-
-    for (i = 0; i < classifiedWords.length; i++) {
-        var classifiedWord = classifiedWords[i];
-        if (classifiedWord.type == "intention") {
-            result.action = classifiedWord.value;
-        }
-        if (classifiedWord.type == "target") {
-            result.targets.push(classifiedWord.value);
-        }
-        if (classifiedWord.type == "location") {
-            result.locations.push(classifiedWord.value);
-        }
-    }
-
-    return result;
-};
+//     return result;
+// };
 
 function reduceSynonymToAPIName(word){
+
     if (!word) return word;
     for (var prop in synonym_hints) {
         if(word === prop.toLowerCase()) return prop;
         
-        hit = contains_lowerCase(synonym_hints[prop], word, true);
+        hit = contains_lowerCase(synonym_hints[prop], word, false);
         if (hit) return prop;
     }
     return word;
@@ -78,13 +71,12 @@ function buildLanguageWithHints(){
 var apiLanguage = buildLanguageWithHints();
 
 
-function isPluginLanguageOrSynonym(word){
+function getPluginLanguageOrSynonym(word){
     word = word.toLowerCase();
-
-    var hit = contains_lowerCase(apiLanguage, word, true);
+    var hit = contains_lowerCase(apiLanguage, word, false);
     hit = reduceSynonymToAPIName(hit);
     if (hit) return hit;
-    return undefined;
+    return word;
 }
 
 function contains_lowerCase(array, word, matchSubstring){
@@ -105,8 +97,10 @@ function getType(word){
     word = word.toLowerCase();
     if(contains_lowerCase(allTargets, word, true)) return "target";
     if(contains_lowerCase(allLocations, word, true)) return "location";
-    if(contains_lowerCase(allCommands, word, true)) return "intention";
-    console.warn("Oh no not found");
+    if(contains_lowerCase(allCommands, word, true)) return "action";
+    if(!isNaN(word)) return "number";
+    return "unknown";
+    // console.warn("Oh no not found");
 }
 
 /*
@@ -117,26 +111,29 @@ function getType(word){
 */
 service.ClassifyWord = function(word){
     word = word.toLowerCase();
+    var originalAPIWord = getPluginLanguageOrSynonym(word);
+    return {
+        type:  getType(originalAPIWord),
+        value: originalAPIWord
+    };
+    // if(getType(originalAPIWord)){
+    //     return {
+    //         type:  getType(originalAPIWord),
+    //         value: originalAPIWord
+    //     };
+    // }else{
+    //     return {
+    //         type: "unknown"
+    //     };
 
-    var originalAPIWord = isPluginLanguageOrSynonym(word);
-    if(originalAPIWord){
-        return {
-            type:  getType(originalAPIWord),
-            value: originalAPIWord
-        };
-    }else{
-        return {
-            type: "unknown"
-        };
-
-    }
+    // }
 
 };
 
 /* LoL */
 function isSynonym(word1, word2){
-    word1 = word1.toLowerCase();
-    word2 = word2.toLowerCase();
+    word1 = word1.toLowerCase().trim();
+    word2 = word2.toLowerCase().trim();
     if (word1 == word2) {
         return true;
     }
@@ -166,6 +163,97 @@ service.ClassifySentence = function(words){
     return wordParts;
 };
 
+
+
+
+function lookForward_getAction (words, index) {
+    for (var i = index; i < words.length; i++) {
+        var word = words[i];
+
+        var classifiedWord = service.ClassifyWord(word);
+
+        if (classifiedWord.type == "action") {
+            classifiedWord.index = i;
+            return classifiedWord;
+        }
+    }
+    return undefined;
+}
+
+function getNewIntention(){
+    return {
+        locations: [],
+        targets: [],
+        adjectives: [],
+        action: undefined,
+        value: undefined,
+        valueType: "absolute"
+    };
+}
+
+/*
+*   {
+*       type: "intention",
+*       value: "turnon"  
+*   }
+*/
+service.getIntentions = function(words){
+    var intentions = [];
+
+    var currentIntent = getNewIntention();
+
+    var first = true;
+    var nextIntent = function(){
+        if (currentIntent.action) {
+            currentIntent = getNewIntention();
+        }
+        // if (intentions.length !== 0) { // use for first call object above
+        //     currentIntent = getNewIntention();
+        // }
+        intentions.push(currentIntent);
+        return currentIntent;
+    };
+
+    for (var i = 0; i < words.length; i++) {
+        var word = words[i];
+
+        var classifiedWord = service.ClassifyWord(word);
+        classifiedWord.index = i;
+
+        if (classifiedWord.type == "action") {
+            nextIntent();
+            currentIntent.action = classifiedWord.value;
+        }
+        if (classifiedWord.type == "target") {
+            currentIntent.targets.push(classifiedWord.value);
+        }
+        if (classifiedWord.type == "location") {
+            currentIntent.locations.push(classifiedWord.value);
+        }
+        if (classifiedWord.type == "adjective") {
+            currentIntent.adjectives.push(classifiedWord.value);
+        }
+        if (classifiedWord.type == "number") {
+            currentIntent.value = classifiedWord.value;
+        }
+
+        // Licht an im Flur und Licht aus Im Wohnzimmer
+        if (isSynonym(word, "und")) {
+            var nextAction = lookForward_getAction(words, i+1); 
+            if (!nextAction) 
+                continue; // no action for second clause
+            nextIntent();
+            currentIntent.action = nextAction.value;
+            words[nextAction.index] = "NIXNIX";
+        }
+
+        if (isSynonym(word, "Prozent")) {
+            currentIntent.valueType = "percent"; 
+        }
+    }
+
+    return intentions;
+};
 
 
 

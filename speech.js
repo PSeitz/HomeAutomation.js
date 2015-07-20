@@ -61,7 +61,7 @@ service.handleSpeech = function(speech){
 
 
     // 3: That's the real thang
-    advancedMeaningRecognition(speech);
+    service.advancedMeaningRecognition(speech);
 
     console.log("No match found for" + speech);
 
@@ -109,49 +109,50 @@ function isSynonym(word1, word2){
 service.semanticResult = function(speech){
 
     var words = speech.split(" ");  // Only speech with space supported
-    var allMod = false;
 
-    for (var i = 0; i < words.length; i++) {
-        if (isSynonym(words[i], "alle")) {
-            allMod = true;
-        }
-    }
+    return classifier.getIntentions(words);
 
-    var classifiedWords = classifier.ClassifySentence(words);
+    // var allMod = false;
+
+    // for (var i = 0; i < words.length; i++) {
+    //     if (isSynonym(words[i], "alle")) {
+    //         allMod = true;
+    //     }
+    // }
+
+    // var classifiedWords = classifier.ClassifySentence(words);
 
 
-    var intents = [];
+    // var result = {};
+    // result.locations = [];
+    // result.targets = [];
+    // result.adjectives = [];
 
-    var result = {};
-    result.locations = [];
-    result.targets = [];
-    result.adjectives = [];
+    // for (i = 0; i < classifiedWords.length; i++) {
+    //     var classifiedWord = classifiedWords[i];
+    //     if (classifiedWord.type == "intention") {
+    //         result.action = classifiedWord.value;
+    //     }
+    //     if (classifiedWord.type == "target") {
+    //         result.targets.push(classifiedWord.value);
+    //     }
+    //     if (classifiedWord.type == "location") {
+    //         result.locations.push(classifiedWord.value);
+    //     }
+    //     if (classifiedWord.type == "adjective") {
+    //         result.adjectives.push(classifiedWord.value);
+    //     }
+    // }
 
-    for (i = 0; i < classifiedWords.length; i++) {
-        var classifiedWord = classifiedWords[i];
-        if (classifiedWord.type == "intention") {
-            result.action = classifiedWord.value;
-        }
-        if (classifiedWord.type == "target") {
-            result.targets.push(classifiedWord.value);
-        }
-        if (classifiedWord.type == "location") {
-            result.locations.push(classifiedWord.value);
-        }
-        if (classifiedWord.type == "adjective") {
-            result.adjectives.push(classifiedWord.value);
-        }
-    }
-
-    return result;
+    // return result;
 
 };
 
-function advancedMeaningRecognition(speech){
+service.advancedMeaningRecognition = function(speech){
     
     // var words = sentence.split(" "); // Only speech with space supported
     // var classifiedWords = [];
-    // var allMod = false;
+    var allMod = false;
 
     // for (var i = 0; i < words.length; i++) {
     //     var word = words[i];
@@ -182,39 +183,66 @@ function advancedMeaningRecognition(speech){
     //     }
     // }
 
-    var result = semanticResult(speech);
+    var intentions = service.semanticResult(speech);
 
-    console.log("targets " + result.targets);
-    console.log("action " +result.action);
-    console.log("locations "+result.locations);
+    // console.log("targets " + result.targets);
+    // console.log("action " +result.action);
+    // console.log("locations "+result.locations);
 
-    for (i = 0; i < result.targets.length; i++) {
-        var plugin = plugins.getPluginForTarget(result.targets[i]);
-        var devices = plugins.getPluginDevicesByLocation(result.locations, plugin);
-        if (devices.length === 0 && allMod) {
-            devices = plugins.getAllPluginDevices(plugin);
+    for (var j = 0; j < intentions.length; j++) {
+        var intent = intentions[j];
+        for (i = 0; i < intent.targets.length; i++) {
+            var plugin = plugins.getPluginForTarget(intent.targets[i]);
+            var devices = plugins.getPluginDevicesByLocation(intent.locations, plugin);
+            if (devices.length === 0 ) {
+                devices = plugins.getAllPluginDevices(plugin);
+            }
+            // var command = {
+            //     target:intent.targets[i],
+            //     action: intent.action,
+            //     locations:intent.locations,
+            //     devices: devices
+            // };
+            // plugin.commandApi(command);
+
+            intent.devices = devices;
+            plugin.commandApi(intent);
         }
-        var command = {
-            target:result.targets[i],
-            action: result.action,
-            locations:result.locations,
-            devices: devices
-        };
-        plugin.commandApi(command);
+
     }
+
+
+    // for (i = 0; i < result.targets.length; i++) {
+    //     var plugin = plugins.getPluginForTarget(result.targets[i]);
+    //     var devices = plugins.getPluginDevicesByLocation(result.locations, plugin);
+    //     if (devices.length === 0 && allMod) {
+    //         devices = plugins.getAllPluginDevices(plugin);
+    //     }
+    //     var command = {
+    //         target:result.targets[i],
+    //         action: result.action,
+    //         locations:result.locations,
+    //         devices: devices
+    //     };
+    //     plugin.commandApi(command);
+    // }
 
     //If action applies to only one target
-    if (_.isEmpty(result.targets)) {
+    // if (_.isEmpty(result.targets)) {
         
-    }
+    // }
 
-}
+};
 
 
-// setTimeout(function(){
-//     // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
-//     advancedMeaningRecognition("Licht aus im Arbeitszimmer");
-// }, 3000);
+setTimeout(function(){
+    // serice.advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
+    // service.advancedMeaningRecognition("Licht an im Arbeitszimmer");
+    // service.advancedMeaningRecognition("Helligkeit auf 0 Prozent");
+    // service.advancedMeaningRecognition("Helligkeit erhöhen");
+
+    service.advancedMeaningRecognition("Fernseher ausschalten");
+}, 3000);
 
 
 module.exports = service;

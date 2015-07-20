@@ -4,6 +4,7 @@ Lights:
     targets: 
         - Licht
         - Lichter
+        - Helligkeit
     devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
     services:
         Alle Aus: []
@@ -121,8 +122,7 @@ Languages: # ISO 639-1
     - ja
 SynonymHints:
     play: ["abspielen", "spielen"]
-    switchto: ["umschalten"]
-    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen"]
+    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen", "setzen", "umschalten", "auf", "schalten"]
     turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
                 "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"]
     increase: ["erhöhen", "anheben", "lauter", "hell", "heller"]

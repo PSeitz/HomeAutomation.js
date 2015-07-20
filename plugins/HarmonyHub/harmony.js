@@ -58,8 +58,11 @@ exports.services = function(){
 
 exports.commandApi = function(command){
     
-    if (command.action == "turnon" && command.target) {
-        turnOn(command.target);
+    if (command.action == "turnon" && command.targets) {
+        for (var i = 0; i < command.targets.length; i++) {
+            var target = command.targets[i];
+            turnOn(target);
+        }
         return;
     }
     if (command.action == "turnoff") {

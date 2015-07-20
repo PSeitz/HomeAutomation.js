@@ -84,10 +84,10 @@ var renderDotTemplate = function(bodyfun, templateData){
 app.get('/', function(req, res) {
     var homeservices = plugins.getHome();
     var allPlugins = plugins.getAll();
-    console.log("print homeservices[i]");
-    for (var i = 0; i < homeservices.length; i++) {
-        console.log(homeservices[i]);
-    }
+    // console.log("print homeservices[i]");
+    // for (var i = 0; i < homeservices.length; i++) {
+    //     console.log(homeservices[i]);
+    // }
     res.send(renderDotTemplate("main", {
         services: homeservices,
         plugins: allPlugins

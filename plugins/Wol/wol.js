@@ -25,11 +25,11 @@ function createfunc(mac_adress) {
 }
 exports.services = function(){
     var actions = [];
-    for (var prop in wolConfig.services) {
-        var deviceName = wolConfig.services[prop];
+    for (var prop in wolConfig.devices) {
+        var deviceName = wolConfig.devices[prop];
         actions.push({
-            name: prop,
-            action : createfunc(devices[deviceName])
+            name: deviceName,
+            action : createfunc(devices[deviceName].mac)
         });
     }
     return actions;
