@@ -235,14 +235,14 @@ service.advancedMeaningRecognition = function(speech){
 };
 
 
-setTimeout(function(){
-    // serice.advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
-    // service.advancedMeaningRecognition("Licht an im Arbeitszimmer");
-    // service.advancedMeaningRecognition("Helligkeit auf 0 Prozent");
-    // service.advancedMeaningRecognition("Helligkeit erhöhen");
+// setTimeout(function(){
+//     // serice.advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
+//     // service.advancedMeaningRecognition("Licht an im Arbeitszimmer");
+//     // service.advancedMeaningRecognition("Helligkeit auf 0 Prozent");
+//     // service.advancedMeaningRecognition("Helligkeit erhöhen");
 
-    service.advancedMeaningRecognition("Fernseher ausschalten");
-}, 3000);
+//     service.advancedMeaningRecognition("Fernseher ausschalten");
+// }, 3000);
 
 
 module.exports = service;
