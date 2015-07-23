@@ -116,7 +116,7 @@ var alterLampsWithAction = function(action, lamps, value, colors){
         }
     }
 
-    var interval = setInterval(handleQueue, 350);
+    var interval = setInterval(handleQueue, config.queueRate || 350);
 
 };
 

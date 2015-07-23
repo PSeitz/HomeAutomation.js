@@ -30,6 +30,6 @@ var speech = require('./speech');
 setTimeout(function(){
     // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
     // speech.advancedMeaningRecognition("Licht an im Arbeitszimmer");
-    speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf gelb");
-    // speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf portal");
+    // speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf gelb");
+    speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf portal");
 }, 3000);
