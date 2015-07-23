@@ -153,11 +153,11 @@ service.getAllServices = function () {
     for (var i = 0; i < allPlugins.length; i++) {
         var pluginservices = allPlugins[i].services;
         for (var prop in pluginservices) {
-            var service = pluginservices[prop];
-            service.plugin_name = allPlugins[i].plugin_name;
-            service.service_id = generateServiceId(service.plugin_name,service.name);
-            service.homescreen = sorting.getPositionForServiceId(service.service_id);
-            service.plugin = allPlugins[i];
+            var pluginservice = pluginservices[prop];
+            pluginservice.plugin_name = allPlugins[i].plugin_name;
+            pluginservice.service_id = generateServiceId(pluginservice.plugin_name,pluginservice.name);
+            pluginservice.homescreen = sorting.getPositionForServiceId(pluginservice.service_id);
+            pluginservice.plugin = allPlugins[i];
         }
         allServices = _.union(allServices, pluginservices);
 
