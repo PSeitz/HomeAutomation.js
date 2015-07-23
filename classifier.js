@@ -14,38 +14,7 @@ var synonym_hints = configLoader.get("SynonymHints");
 
 var langs = configLoader.get("Languages");
 
-
-// service.ClassifySentence = function(sentence){
-//     var words = sentence.split(" ");
-
-//     // cld.detect(string, function(err, result) {
-//     //     console.log(result);
-//     // });
-
-//     var classifiedWords = [];
-//     for (var i = 0; i < words.length; i++) {
-//         classifiedWords.push(service.ClassifyWord(words[i]));
-//     }
-
-//     var result = {};
-//     result.locations = [];
-//     result.targets = [];
-
-//     for (i = 0; i < classifiedWords.length; i++) {
-//         var classifiedWord = classifiedWords[i];
-//         if (classifiedWord.type == "intention") {
-//             result.action = classifiedWord.value;
-//         }
-//         if (classifiedWord.type == "target") {
-//             result.targets.push(classifiedWord.value);
-//         }
-//         if (classifiedWord.type == "location") {
-//             result.locations.push(classifiedWord.value);
-//         }
-//     }
-
-//     return result;
-// };
+var colors = require('./speech/colors');
 
 function reduceSynonymToAPIName(word){
 
@@ -99,6 +68,8 @@ function getType(word){
     if(contains_lowerCase(allLocations, word, true)) return "location";
     if(contains_lowerCase(allCommands, word, true)) return "action";
     if(!isNaN(word)) return "number";
+    if(!isNaN(word)) return "number";
+    if (colors.getColorForName(word)) return "color";
     return "unknown";
     // console.warn("Oh no not found");
 }
@@ -116,17 +87,6 @@ service.ClassifyWord = function(word){
         type:  getType(originalAPIWord),
         value: originalAPIWord
     };
-    // if(getType(originalAPIWord)){
-    //     return {
-    //         type:  getType(originalAPIWord),
-    //         value: originalAPIWord
-    //     };
-    // }else{
-    //     return {
-    //         type: "unknown"
-    //     };
-
-    // }
 
 };
 
@@ -139,31 +99,6 @@ function isSynonym(word1, word2){
     }
     return false;
 }
-
-
-/*
-*   {
-*       type: "intention",
-*       value: "turnon"  
-*   }
-*/
-service.ClassifySentence = function(words){
-    var wordParts = [];
-
-    var allMod = false;
-
-    for (var i = 0; i < words.length; i++) {
-        var word = words[i];
-        wordParts.push(service.ClassifyWord(words[i]));
-        if (isSynonym(word, "alle")) {
-            allMod = true;
-        }
-    }
-
-    return wordParts;
-};
-
-
 
 
 function lookForward_getAction (words, index) {
@@ -235,6 +170,12 @@ service.getIntentions = function(words){
         }
         if (classifiedWord.type == "number") {
             currentIntent.value = classifiedWord.value;
+        }
+        if (classifiedWord.type == "color") {
+            currentIntent.adjectives.push({
+                value: colors.getColorForName(word),
+                type: "color"
+            });
         }
 
         // Licht an im Flur und Licht aus Im Wohnzimmer

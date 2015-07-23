@@ -51,7 +51,7 @@ module.exports = service;
 
 // var expressWs = require('express-ws')(app, server);
 var plugins = require('./plugins');
-plugins.loadPlugins();
+// plugins.loadPlugins();
 plugins.activateServices();
 var sorting = require("./homescreensortorder");
 
@@ -162,11 +162,6 @@ app.post("/newhomeorder", function(req, res) {
     sorting.setPositions(req.body.list);
 });
 
-app.get("/download/:system/:id/:name", function(req, res) {
-    var id = req.params.id;
-    var game = req.params.name;
-    var system = req.params.system;
-});
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));

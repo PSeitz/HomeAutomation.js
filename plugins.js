@@ -23,9 +23,9 @@ function validatePlugin(plugin, pluginFolder){
 // var controlLights = require("./plugins/ControlHue/controllights");
 // var wol = require("./plugins/Wol/wol");
 
-var Plugins = {};
+var service = {};
 
-Plugins.loadPlugins = function() {
+service.loadPlugins = function() {
     var allPlugins = [];
     fs.readdirSync(pluginsFolder).forEach(function(file) {
         var pluginFolder = path.join(__dirname,pluginsFolder, file);
@@ -41,12 +41,12 @@ Plugins.loadPlugins = function() {
             allPlugins.push(plugin);
         }
     });
-    Plugins.allPlugins = allPlugins;
+    service.allPlugins = allPlugins;
 };
 
-Plugins.activateServices = function() {
+service.activateServices = function() {
     var server = require("./server");
-    var allServices = Plugins.getAllServices();
+    var allServices = service.getAllServices();
     for (var i = 0; i < allServices.length; i++) {
         if (allServices[i].onWebsocketConnection) {
             server.addWebservice('/'+allServices[i].service_id, function(ws){
@@ -60,21 +60,24 @@ Plugins.activateServices = function() {
 // var allPlugins = loadPlugins();
 // console.log(allPlugins);
 
-Plugins.getAll = function () {
-    return Plugins.allPlugins;
+service.getAll = function () {
+    if (!service.allPlugins) {
+        service.loadPlugins();
+    }
+    return service.allPlugins;
 };
 
-Plugins.getPlugin = function (name) {
-    for (var i = 0; i < Plugins.allPlugins.length; i++) {
-        if(Plugins.allPlugins[i].plugin_name === name){
-            return Plugins.allPlugins[i];
+service.getPlugin = function (name) {
+    for (var i = 0; i < service.getAll().length; i++) {
+        if(service.getAll()[i].plugin_name === name){
+            return service.getAll()[i];
         }
     }
     console.log("PLUGIN NOT FOUND:" + name);
 };
 
-Plugins.getPluginForTarget = function (target) {
-    var allPlugins = Plugins.allPlugins;
+service.getPluginForTarget = function (target) {
+    var allPlugins = service.getAll();
     for (var i = 0; i < allPlugins.length; i++) {
         var plugin = allPlugins[i];
         if(plugin.config && plugin.config.targets){
@@ -87,7 +90,7 @@ Plugins.getPluginForTarget = function (target) {
     console.log("PLUGIN FOR TARGET NOT FOUND:" + target);
 };
 
-Plugins.getPluginDevicesByLocation = function (locations, plugin) {
+service.getPluginDevicesByLocation = function (locations, plugin) {
     var devicesInLocation = [];
     var allDevices = configLoader.get("Devices");
     for (var prop in allDevices) {
@@ -101,15 +104,15 @@ Plugins.getPluginDevicesByLocation = function (locations, plugin) {
     return _.intersection(devicesInLocation, plugin.config.devices);
 };
 
-Plugins.getAllPluginDevices = function (plugin) {
+service.getAllPluginDevices = function (plugin) {
     if (!plugin) {
         return;   
     }
     return plugin.config.devices;
 };
 
-Plugins.getService = function (plugin_name, service_name) {
-    var plugin = Plugins.getPlugin(plugin_name);
+service.getService = function (plugin_name, service_name) {
+    var plugin = service.getPlugin(plugin_name);
     var pluginservices = plugin.services;
     for (var i = 0; i < pluginservices.length; i++) {
         if(pluginservices[i].name === service_name){
@@ -118,8 +121,8 @@ Plugins.getService = function (plugin_name, service_name) {
     }
 };
 
-Plugins.findServiceByName = function (service_name) {
-    var allServices = Plugins.getAllServices();
+service.findServiceByName = function (service_name) {
+    var allServices = service.getAllServices();
     for (var i = 0; i < allServices.length; i++) {
         if(allServices[i].name === service_name){
             return allServices[i];
@@ -144,8 +147,8 @@ function generateServiceId(pluginName, serviceName){
         template: blubber
     }
 */
-Plugins.getAllServices = function () {
-    var allPlugins = Plugins.getAll();
+service.getAllServices = function () {
+    var allPlugins = service.getAll();
     var allServices = [];
     for (var i = 0; i < allPlugins.length; i++) {
         var pluginservices = allPlugins[i].services;
@@ -165,8 +168,8 @@ Plugins.getAllServices = function () {
     return allServices;
 };
 
-Plugins.getHome = function () {
-    var services = Plugins.getAllServices();
+service.getHome = function () {
+    var services = service.getAllServices();
     for (var i = 0; i < services.length; i++) {
         services[i].homescreen = sorting.getPositionForServiceId(services[i].service_id);
     }
@@ -176,6 +179,7 @@ Plugins.getHome = function () {
     return sortedhomeservices;
 };
 
+service.loadPlugins();
+// service.activateServices();
 
-
-module.exports = Plugins;
+module.exports = service;

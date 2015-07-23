@@ -1,58 +1,84 @@
-var dgram = require('dgram'); // dgram is UDP
+ var Client = require('node-ssdp').Client
+      , client = new Client();
+
+    client.on('response', function (headers, statusCode, rinfo) {
+	    console.log('Got a response to an m-search.');
+	    console.log(rinfo);
+    });
+
+    // search for a service type
+    // client.search('urn:schemas-upnp-org:service:ContentDirectory:1');
+
+    // Or get a list of all services on the network
+
+    client.search('ssdp:all');
+
+
+
+
+
+
+
+
+
+// var dgram = require('dgram'); // dgram is UDP
  
-// Listen for responses
-function listen(port) {
-	var server = dgram.createSocket("udp4");
+// // Listen for responses
+// function listen(port) {
+
+// 	console.log("Listen for responses:"+port);
+
+// 	var server = dgram.createSocket("udp4");
  
-	server.on("message", function (msg, rinfo) {
-		console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
-	});
+// 	server.on("message", function (msg, rinfo) {
+// 		console.log("server got: " + msg + " from " + rinfo.address + ":" + rinfo.port);
+// 	});
  
-	server.bind(port); // Bind to the random port we were given when sending the message, not 1900
+// 	server.bind(port); // Bind to the random port we were given when sending the message, not 1900
  
-	// Give it a while for responses to come in
-	setTimeout(function(){
-		console.log("Finished waiting");
-		server.close();
-	},5000);
-}
+// 	// Give it a while for responses to come in
+// 	setTimeout(function(){
+// 		console.log("Finished waiting");
+// 		server.close();
+// 	},5000);
+// }
  
-function search() {
+// function search() {
 	
-	var message = new Buffer(
-		"M-SEARCH * HTTP/1.1\r\n" +
-		"HOST:239.255.255.250:1900\r\n" +
-		"MAN:\"ssdp:discover\"\r\n" +
-		"ST:ssdp:all\r\n" + // Essential, used by the client to specify what they want to discover, eg 'ST:ge:fridge'
-		"MX:1\r\n" + // 1 second to respond (but they all respond immediately?)
-		"\r\n"
-	);
+// 	var message = new Buffer(
+// 		"M-SEARCH * HTTP/1.1\r\n" +
+// 		"HOST:239.255.255.250:1900\r\n" +
+// 		"MAN:\"ssdp:discover\"\r\n" +
+// 		"ST:ssdp:all\r\n" + // Essential, used by the client to specify what they want to discover, eg 'ST:ge:fridge'
+// 		"MX:1\r\n" + // 1 second to respond (but they all respond immediately?)
+// 		"\r\n"
+// 	);
  
-	var client = dgram.createSocket("udp4");
-	client.bind(function(){
-		console.log("asdasd waiting");
-		listen(client.address().port);
-		client.send(message, 0, message.length, 1900, "239.255.255.250");
-		client.send(message, 0, message.length, 1900, "239.255.255.250", function(err) {
-			console.log(" client.close();");
-		  client.close();
-		});
-		// client.close();
-	}); // So that we get a port so we can listen before sending
+// 	var client = dgram.createSocket("udp4");
+// 	client.bind(function(){
+// 		console.log("asdasd waiting");
+// 		listen(client.address().port);
+// 		client.send(message, 0, message.length, 1900, "239.255.255.250");
+// 		client.send(message, 0, message.length, 1900, "239.255.255.250", function(err) {
+// 			console.log(" client.close();");
+// 		  	client.close();
+// 		});
+// 		// client.close();
+// 	}); // So that we get a port so we can listen before sending
 	
-}
+// }
  
-search();
+// search();
 
-// var upnpClient = require('node-upnp-client');
-// var cli = new upnpClient();
+// // var upnpClient = require('node-upnp-client');
+// // var cli = new upnpClient();
 
-// //start search
-// cli.on('searchDevicesEnd', function() {
-//     console.log('Servers'+ JSON.stringify(cli._servers));
-// });
+// // //start search
+// // cli.on('searchDevicesEnd', function() {
+// //     console.log('Servers'+ JSON.stringify(cli._servers));
+// // });
 
-// cli.on('updateUpnpDevice', function() {
-//     console.log('Servers'+ JSON.stringify(cli._servers));
-// });
-// cli.searchDevices();
+// // cli.on('updateUpnpDevice', function() {
+// //     console.log('Servers'+ JSON.stringify(cli._servers));
+// // });
+// // cli.searchDevices();

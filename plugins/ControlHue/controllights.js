@@ -5,6 +5,7 @@ var _= require('lodash');
 var yaml = require('js-yaml');
 var configLoader = require('../../configloader');
 var config = configLoader.get("Lights");
+var colorToHue = require("./../../speech/colorToHue");
 
 var api = new HueApi(config.hostname, config.token);
 
@@ -88,7 +89,7 @@ var only = function(onLamps){
     
 // };
 
-var alterLampsWithAction = function(value, lamps, action){
+var alterLampsWithAction = function(action, lamps, value, colors){
     var lights = getLightsForName(hueLights, lamps);
     console.log(JSON.stringify(lights, null, 2));
     for (var i = 0; i < lights.length; i++) {
@@ -96,10 +97,18 @@ var alterLampsWithAction = function(value, lamps, action){
         // action(value, light);
     }
 
+    var colorPos = 0;
     function handleQueue()
     {
         var light = lights.pop();
         if (light) {
+            if (colors && colors[0]) {
+                var xycolors = colorToHue.hexStringToXyBri(colors[colorPos]);
+                value.xy = [xycolors.x, xycolors.y];
+                colorPos++; 
+                if(!colors[colorPos]) colorPos = 0;
+            }
+            
             action(value, light); 
         }
         if (lights.length === 0) {
@@ -116,6 +125,11 @@ function setLightState (lightstate, light) {
         console.log('light set');
     });
 }
+// function setLightOn (lightstate, light) {
+//     api.setLightState(light.id, lightstate, function(err, result) {
+//         console.log('light set');
+//     });
+// }
 
 function alterBrightnessOfLamp(deltaValue, light){
     api.lightStatus(light.id, function(err, result) {
@@ -140,11 +154,9 @@ exports.getName = function(){
 
 function onlyWrapper(onLamps) {
     return function() { 
-        // only(onLamps);
         var offLamps = _.difference(config.devices, onLamps);
-        alterLampsWithAction({"transitiontime": 0, "on": true, "bri": 254}, onLamps, setLightState);
-        alterLampsWithAction({"transitiontime": 0, "on": false}, offLamps, setLightState);
-
+        alterLampsWithAction(setLightState, onLamps, {"transitiontime": 0, "on": true, "bri": 254});
+        alterLampsWithAction(setLightState, offLamps, {"transitiontime": 0, "on": false});
     };
 }
 
@@ -165,32 +177,38 @@ exports.commandApi = function(command){
 
     console.log(command);
 
+    var colors = [];
+    for (var i = 0; i < command.adjectives.length; i++) {
+        var adj = command.adjectives[i];
+        if (adj.type == "color"){
+            if( Object.prototype.toString.call( adj.value.hex ) === '[object Array]' )
+                colors.push.apply(colors, adj.value.hex);
+            else
+                colors.push(adj.value.hex);
+        }
+    }
+
     if (command.value) {
         var value = command.value;
         if (command.valueType === "percent")
             value = command.value * 255 / 100;
-        
-        // setBrightnessOfLamps(value, lamps);
 
-        alterLampsWithAction(value, lamps, setBrightnessOfLamp);
+        alterLampsWithAction(setBrightnessOfLamp, lamps, value, colors);
     }else{
 
         if (command.action == "turnon") {
-            // lightOn(lamps);
-            alterLampsWithAction({"transitiontime": 0, "on": true, "bri": 254}, lamps, setLightState);
+            
+            alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": true, "bri": 254}, colors);
             
         }
         if (command.action == "turnoff") {
-            // lightOff(lamps);
-            alterLampsWithAction({"transitiontime": 0, "on": false}, lamps, setLightState);
+            alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": false});
         }
         if (command.action == "decrease") {
-            // alterBrightnessOfLamps(-80, lamps);
-            alterLampsWithAction(-80, lamps, alterBrightnessOfLamp);
+            alterLampsWithAction(alterBrightnessOfLamp, lamps, -80);
         }
         if (command.action == "increase") {
-            // alterBrightnessOfLamps(80, lamps);
-            alterLampsWithAction(80, lamps, alterBrightnessOfLamp);
+            alterLampsWithAction(alterBrightnessOfLamp, lamps, 80);
         }
 
     }
