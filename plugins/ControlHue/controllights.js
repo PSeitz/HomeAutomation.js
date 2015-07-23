@@ -155,7 +155,7 @@ exports.getName = function(){
 function onlyWrapper(onLamps) {
     return function() { 
         var offLamps = _.difference(config.devices, onLamps);
-        alterLampsWithAction(setLightState, onLamps, {"transitiontime": 0, "on": true, "bri": 254});
+        alterLampsWithAction(setLightState, onLamps, {"transitiontime": 0, "on": true, "bri": 254, "hue": 15760, "saturation":93});
         alterLampsWithAction(setLightState, offLamps, {"transitiontime": 0, "on": false});
     };
 }
