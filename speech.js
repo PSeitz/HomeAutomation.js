@@ -11,8 +11,6 @@ for (var i = 0; i < config.length; i++) {
     }
 }
 
-
-
 // var distance = levenshtein.get('Super', 'SUPER');   // 1
 // console.log("distance " +distance);
 
@@ -52,9 +50,9 @@ service.handleSpeech = function(speech){
     // 2: Services which match the speech string
     var services = plugins.getAllServices();
     for (i = 0; i < services.length; i++) {
-        var service = services[i];
-        if (levenshtein.get(service.name.toLowerCase(), speech.toLowerCase()) <= 1) {
-            service.action();
+        var plugin_service = services[i];
+        if (levenshtein.get(plugin_service.name.toLowerCase(), speech.toLowerCase()) <= 1) {
+            plugin_service.action();
             return;
         }
     }
