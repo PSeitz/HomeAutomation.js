@@ -2,11 +2,11 @@
 	"portal": {
 		"hex": ["#fd6600", "#0078ff"]
 	},
-	"deutschland": {
-		"hex": ["#000000", "#003798"]
-	},
 	"ksc": {
-		"hex": ["#FFFFFF","#f0f8ff", "#f0f8ff" ]
+		"hex": ["#FFFFFF", "#003798"]
+	},
+	"deutschland": {
+		"hex": ["#000000","#dd0000", "#ffce00"]
 	},
 	"aliceblue": {
 		"rgb": "240,248,255",
