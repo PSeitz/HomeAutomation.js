@@ -175,6 +175,8 @@ exports.services = function(){
 exports.commandApi = function(command){
     var lamps = command.devices || config.devices;
 
+    command.action = command.action || "turnon";
+
     console.log(command);
 
     var colors = [];

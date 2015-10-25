@@ -26,10 +26,14 @@ var speech = require('./speech');
 
 // console.log(JSON.stringify(result, null, 2));
 
+var result = speech.semanticResult("Licht auf 50% im Arbeitszimmer");
+// var result = speech.semanticResult("Licht grün im Arbeitszimmer");
 
-setTimeout(function(){
-    // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
-    // speech.advancedMeaningRecognition("Licht an im Arbeitszimmer");
-    // speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf gelb");
-    speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf portal");
-}, 3000);
+console.log(JSON.stringify(result, null, 2));
+
+// setTimeout(function(){
+//     // advancedMeaningRecognition("Im Arbeitszimmer und im Flur Licht ausmachen");
+//     // speech.advancedMeaningRecognition("Licht an im Arbeitszimmer");
+//     // speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf gelb");
+//     speech.advancedMeaningRecognition("Licht im Arbeitszimmer auf portal");
+// }, 3000);

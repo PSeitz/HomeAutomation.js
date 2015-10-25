@@ -68,7 +68,7 @@ function getType(word){
     if(contains_lowerCase(allLocations, word, true)) return "location";
     if(contains_lowerCase(allCommands, word, true)) return "action";
     if(!isNaN(word)) return "number";
-    if(!isNaN(word)) return "number";
+    if(!isNaN(word.split("%")[0])) return "number";
     if (colors.getColorForName(word)) return "color";
     return "unknown";
     // console.warn("Oh no not found");
@@ -169,7 +169,8 @@ service.getIntentions = function(words){
             currentIntent.adjectives.push(classifiedWord.value);
         }
         if (classifiedWord.type == "number") {
-            currentIntent.value = classifiedWord.value;
+            currentIntent.value = classifiedWord.value.split("%")[0];
+            if(word.indexOf("%") >= 0) currentIntent.valueType = "percent";
         }
         if (classifiedWord.type == "color") {
             currentIntent.adjectives.push({
@@ -192,6 +193,9 @@ service.getIntentions = function(words){
             currentIntent.valueType = "percent"; 
         }
     }
+    if (intentions.length === 0) // Actionless intent
+        nextIntent();
+    
 
     return intentions;
 };

@@ -110,82 +110,13 @@ service.semanticResult = function(speech){
 
     return classifier.getIntentions(words);
 
-    // var allMod = false;
-
-    // for (var i = 0; i < words.length; i++) {
-    //     if (isSynonym(words[i], "alle")) {
-    //         allMod = true;
-    //     }
-    // }
-
-    // var classifiedWords = classifier.ClassifySentence(words);
-
-
-    // var result = {};
-    // result.locations = [];
-    // result.targets = [];
-    // result.adjectives = [];
-
-    // for (i = 0; i < classifiedWords.length; i++) {
-    //     var classifiedWord = classifiedWords[i];
-    //     if (classifiedWord.type == "intention") {
-    //         result.action = classifiedWord.value;
-    //     }
-    //     if (classifiedWord.type == "target") {
-    //         result.targets.push(classifiedWord.value);
-    //     }
-    //     if (classifiedWord.type == "location") {
-    //         result.locations.push(classifiedWord.value);
-    //     }
-    //     if (classifiedWord.type == "adjective") {
-    //         result.adjectives.push(classifiedWord.value);
-    //     }
-    // }
-
-    // return result;
-
 };
 
 service.advancedMeaningRecognition = function(speech){
     
-    // var words = sentence.split(" "); // Only speech with space supported
-    // var classifiedWords = [];
     var allMod = false;
 
-    // for (var i = 0; i < words.length; i++) {
-    //     var word = words[i];
-    //     classifiedWords.push(classifier.ClassifyWord(words[i]));
-    //     if (isSynonym(word, "alle")) {
-    //         allMod = true;
-    //     }
-    // }
-
-    // var result = {};
-    // result.locations = [];
-    // result.targets = [];
-    // result.adjectives = [];
-
-    // for (i = 0; i < classifiedWords.length; i++) {
-    //     var classifiedWord = classifiedWords[i];
-    //     if (classifiedWord.type == "intention") {
-    //         result.action = classifiedWord.value;
-    //     }
-    //     if (classifiedWord.type == "target") {
-    //         result.targets.push(classifiedWord.value);
-    //     }
-    //     if (classifiedWord.type == "location") {
-    //         result.locations.push(classifiedWord.value);
-    //     }
-    //     if (classifiedWord.type == "adjective") {
-    //         result.adjectives.push(classifiedWord.value);
-    //     }
-    // }
-
     var intentions = service.semanticResult(speech);
-
-    // console.log("targets " + result.targets);
-    // console.log("action " +result.action);
-    // console.log("locations "+result.locations);
 
     for (var j = 0; j < intentions.length; j++) {
         var intent = intentions[j];
@@ -195,40 +126,12 @@ service.advancedMeaningRecognition = function(speech){
             if (devices.length === 0 ) {
                 devices = plugins.getAllPluginDevices(plugin);
             }
-            // var command = {
-            //     target:intent.targets[i],
-            //     action: intent.action,
-            //     locations:intent.locations,
-            //     devices: devices
-            // };
-            // plugin.commandApi(command);
-
             intent.devices = devices;
             plugin.commandApi(intent);
         }
 
     }
 
-
-    // for (i = 0; i < result.targets.length; i++) {
-    //     var plugin = plugins.getPluginForTarget(result.targets[i]);
-    //     var devices = plugins.getPluginDevicesByLocation(result.locations, plugin);
-    //     if (devices.length === 0 && allMod) {
-    //         devices = plugins.getAllPluginDevices(plugin);
-    //     }
-    //     var command = {
-    //         target:result.targets[i],
-    //         action: result.action,
-    //         locations:result.locations,
-    //         devices: devices
-    //     };
-    //     plugin.commandApi(command);
-    // }
-
-    //If action applies to only one target
-    // if (_.isEmpty(result.targets)) {
-        
-    // }
 
 };
 
