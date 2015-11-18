@@ -79,6 +79,7 @@ function findShowIDForName(targetIP, name, cb) {
                 return;
             }
         }
+        console.log("Nothing found");
     });
 
 }
@@ -152,7 +153,7 @@ exports.services = function(){
                     playRandom("South Park", ip);
                 }
             },
-            name: "Random SouthPark"
+            name: "Random South Park"
         }
     ];
 };

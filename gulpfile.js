@@ -26,7 +26,9 @@ var settingsjs_files = [
 var css_files = [
     // './public/bootstrap/css/bootstrap.min.css',
     './public/ionic/css/ionic.min.css',
-    './public/css/style.css'
+    './public/css/style.css',
+    './public/css/pure-0.6.0/grids-core.css',
+    './public/css/pure-0.6.0/base.css'
 ];
 
 // Rerun the task when a file changes

@@ -1,0 +1,20 @@
+.container {
+  display: flex; /* or inline-flex */
+  flex-wrap: wrap;
+}
+
+.item {
+  flex-grow: 1; /* default 0 */
+  padding: 5rem;
+  text-align: center;
+  /*background: #002167;*/
+  border: solid 1px darkgrey;
+  margin: 1px;
+  flex-basis: 0;
+  transition: all 100ms ease-out;
+}
+
+.item:active {
+   /*background: #041933; */
+}
+

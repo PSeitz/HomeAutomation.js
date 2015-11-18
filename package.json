@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "body-parser": "^1.12.2",
+    "chai": "^3.4.0",
     "cld": "^2.2.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
@@ -29,13 +30,13 @@
     "fast-levenshtein": "^1.0.6",
     "germansynonyms": "^1.0.2",
     "gulp-purifycss": "^0.2.0",
-    "purifycss": "git://github.com/PSeitz/purifycss",
     "harmonyhubjs-client": "^1.1.3",
     "jison": "^0.4.15",
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
     "morgan": "~1.0.0",
     "node-hue-api": "^1.0.5",
+    "purifycss": "git://github.com/PSeitz/purifycss",
     "static-favicon": "~1.0.0",
     "wake_on_lan": "0.0.4",
     "ws": "~0.7.1",
@@ -53,6 +54,7 @@
     "gulp-less": "~1.3.6",
     "gulp-minify-css": "^1.2.0",
     "gulp-purifycss": "git://github.com/purifycss/gulp-purifycss",
-    "gulp-watch": "~2.0.0"
+    "gulp-watch": "~2.0.0",
+    "mocha": "^2.3.3"
   }
 }
