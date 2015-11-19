@@ -21,12 +21,11 @@
   "dependencies": {
     "body-parser": "^1.12.2",
     "chai": "^3.4.0",
-    "cld": "^2.2.0",
     "cookie-parser": "~1.0.1",
     "debug": "~0.7.4",
     "dot": "~1.0.3",
     "express": "~4.2.0",
-    "express-ws": "^0.2.5",
+    "express-ws": "git://github.com/PSeitz/express-ws",
     "fast-levenshtein": "^1.0.6",
     "germansynonyms": "^1.0.2",
     "gulp-purifycss": "^0.2.0",

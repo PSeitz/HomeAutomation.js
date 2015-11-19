@@ -1,6 +1,7 @@
 var plugins = require('./plugins');
 var configLoader = require('./configloader');
 var classifier = require('./classifier');
+var say_service = require('./say.js');
 var config = configLoader.get("Speech");
 var levenshtein = require('fast-levenshtein');
 var _ = require('lodash');
@@ -10,9 +11,9 @@ for (var i = 0; i < config.length; i++) {
         config[i].match[j] = config[i].match[j].toLowerCase();
     }
 }
-
 // var distance = levenshtein.get('Super', 'SUPER');   // 1
 // console.log("distance " +distance);
+// say_service.say("Supiii - juhu");
 
 var service = {};
 
@@ -42,6 +43,7 @@ service.handleSpeech = function(speech){
             var distance = levenshtein.get(speech.toLowerCase(), match.toLowerCase());
             if (distance <= 1) {
                 activateServicesByName(config[i].services);
+                say_service.say(config[i].services);
                 return;
             }
         }
@@ -53,10 +55,10 @@ service.handleSpeech = function(speech){
         var plugin_service = services[i];
         if (levenshtein.get(plugin_service.name.toLowerCase(), speech.toLowerCase()) <= 1) {
             plugin_service.action();
+            say_service.say(plugin_service.name);
             return;
         }
     }
-
 
     // 3: That's the real thang
     service.advancedMeaningRecognition(speech);
@@ -118,6 +120,8 @@ service.advancedMeaningRecognition = function(speech){
 
     var intentions = service.semanticResult(speech);
 
+    var say = '';
+
     for (var j = 0; j < intentions.length; j++) {
         var intent = intentions[j];
         for (i = 0; i < intent.targets.length; i++) {
@@ -127,11 +131,16 @@ service.advancedMeaningRecognition = function(speech){
                 devices = plugins.getAllPluginDevices(plugin);
             }
             intent.devices = devices;
-            plugin.commandApi(intent);
+            var tmp = plugin.commandApi(intent);
+            if (tmp) say += tmp; 
+            
         }
 
     }
 
+    if (say) {
+        say_service.say(say); // :)
+    }
 
 };
 

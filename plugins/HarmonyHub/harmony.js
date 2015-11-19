@@ -63,11 +63,11 @@ exports.commandApi = function(command){
             var target = command.targets[i];
             turnOn(target);
         }
-        return;
+        return "Fernseher angetörnt.";
     }
     if (command.action == "turnoff") {
         turnOff();
-        return;
+        return "Fernseher ausbugsiert.";
     }
 
     console.log("Not enough info for harmony plugin:" + command);

@@ -142,6 +142,15 @@ app.post("/speech/", function(req, res) {
 
 });
 
+app.get("/speech/:text", function(req, res) {
+    var speech = req.params.text;
+    console.log(speech);
+    speechModule.handleSpeech(speech);
+
+    res.send('hehehe!');
+
+});
+
 // setTimeout(function(){
 // 	speechModule.handleSpeech("Alle Lichter aus");
 // }, 5000);

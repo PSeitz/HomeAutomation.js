@@ -1,22 +1,22 @@
-var cld = require('cld');
+// var cld = require('cld');
 
 console.time('Timer Title');
 
 var string = 'Das ist ein Test おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします おねがいします';
 
 // var string = 'Zehn Bier おねがいします';
-cld.detect(string, function(err, result) {
-    console.log(result);
+// cld.detect(string, function(err, result) {
+//     console.log(result);
 
-    var pos = 0;
-    for (var i = 0; i < result.chunks.length; i++) {
-        if (!result.chunks[i]) continue;
-        console.log(string.substr(pos, result.chunks[i].offset));
-        pos += result.chunks[i].offset;
-    }
-    console.log(string.substr(pos, string.length));
+//     var pos = 0;
+//     for (var i = 0; i < result.chunks.length; i++) {
+//         if (!result.chunks[i]) continue;
+//         console.log(string.substr(pos, result.chunks[i].offset));
+//         pos += result.chunks[i].offset;
+//     }
+//     console.log(string.substr(pos, string.length));
 
-});
+// });
 
 console.timeEnd('Timer Title');
 

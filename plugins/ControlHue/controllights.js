@@ -15,12 +15,24 @@ api.lights(function(err, result) {
     hueLights = result.lights;
 });
 
+function compare(light_a, light_b) {
+    if (light_a.name == light_b.name) {
+        return 0;
+    }
+    if (light_a.name < light_b.name) {
+        return -1;
+    }
+    return 1;
+}
+
 function getLightsForName(allLights, lights){
     var matchingLights = [];
     for (var i = 0; i < allLights.length; i++) {
         if( lights.indexOf(allLights[i].name) >= 0 )
             matchingLights.push(allLights[i]);
     }
+    matchingLights.sort(compare);
+
     return matchingLights;
 }
 
@@ -172,6 +184,27 @@ exports.services = function(){
 };
 
 
+function getNames (lamps) {
+    var str = '';
+    var first = false;
+    for (var i = 0; i < lamps.length; i++) {
+        // if (!first) str += ', ';
+        var lamp = lamps[i];
+        str += ' '+lamp+' ';
+        // first = false;
+        str += ', ';
+    }
+
+    str = str.toLowerCase();
+    str = str.replace(/wz/g, 'Wohnzimmer');
+    str = str.replace(/sz/g, 'Schlafzimmer');
+    str = str.replace(/az/g, 'Arbeitszimmer');
+    str = str.replace(/back/g, 'Hinten');
+
+    
+    return str;
+}
+
 exports.commandApi = function(command){
     var lamps = command.devices || config.devices;
 
@@ -196,21 +229,26 @@ exports.commandApi = function(command){
             value = command.value * 255 / 100;
 
         alterLampsWithAction(setBrightnessOfLamp, lamps, value, colors);
+
+        return "Helligkeit der Lampen "+ getNames(lamps)+ " auf " + value+ " gestellt";
     }else{
 
         if (command.action == "turnon") {
             
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": true, "bri": 254}, colors);
-            
+            return lamps.length+ "Lampen, genauer gesagt: "+getNames(lamps)+ "  angäimacht.";
         }
         if (command.action == "turnoff") {
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": false});
+            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  ausgeknipst.";
         }
         if (command.action == "decrease") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, -80);
+            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  dünkler gemacht.";
         }
         if (command.action == "increase") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, 80);
+            return getNames(lamps)+ "  noch hellerer gemacht. Supiii - juhu";
         }
 
     }

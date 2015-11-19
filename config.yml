@@ -52,6 +52,8 @@ Yamaha:
         - play
         - increase
         - decrease
+Say:
+    - 192.168.0.201
 Speech:
     -
       match: ["Alle Lichter An"]
