@@ -230,25 +230,25 @@ exports.commandApi = function(command){
 
         alterLampsWithAction(setBrightnessOfLamp, lamps, value, colors);
 
-        return "Helligkeit der Lampen "+ getNames(lamps)+ " auf " + value+ " gestellt";
+        return "Helligkeit der Lampen "+ getNames(lamps)+ " auf " + value+ " stellen";
     }else{
 
         if (command.action == "turnon") {
             
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": true, "bri": 254}, colors);
-            return lamps.length+ "Lampen, genauer gesagt: "+getNames(lamps)+ "  angäimacht.";
+            return lamps.length+ "Lampen, genauer gesagt: "+getNames(lamps)+ "  anmachen.";
         }
         if (command.action == "turnoff") {
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": false});
-            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  ausgeknipst.";
+            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  ausknipsen.";
         }
         if (command.action == "decrease") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, -80);
-            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  dünkler gemacht.";
+            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  dunkler machen.";
         }
         if (command.action == "increase") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, 80);
-            return getNames(lamps)+ "  noch hellerer gemacht. Supiii - juhu";
+            return getNames(lamps)+ "  noch heller gemacht. Supiii - juhu";
         }
 
     }

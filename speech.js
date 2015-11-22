@@ -5,6 +5,9 @@ var say_service = require('./say.js');
 var config = configLoader.get("Speech");
 var levenshtein = require('fast-levenshtein');
 var _ = require('lodash');
+var germansynonyms = require('germansynonyms');
+
+germansynonyms.createDb();
 
 for (var i = 0; i < config.length; i++) {
     for (var j = 0; j < config[i].match.length; j++) {
@@ -139,7 +142,10 @@ service.advancedMeaningRecognition = function(speech){
     }
 
     if (say) {
-        say_service.say(say); // :)
+        germansynonyms.getRandomSynonymSentence(say).then(function (result) {
+            say_service.say(result);
+        })
+        // say_service.say(say); // :)
     }
 
 };
