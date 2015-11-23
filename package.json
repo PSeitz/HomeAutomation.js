@@ -27,7 +27,6 @@
     "express": "~4.2.0",
     "express-ws": "git://github.com/PSeitz/express-ws",
     "fast-levenshtein": "^1.0.6",
-    // "germansynonyms": "^2.0.4",
     "gulp-purifycss": "^0.2.0",
     "harmonyhubjs-client": "git://github.com/PSeitz/harmonyhubjs-client",
     "jison": "^0.4.15",
