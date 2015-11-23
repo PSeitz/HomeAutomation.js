@@ -71,3 +71,6 @@ gulp.task('buildcss', ['buildjs_settings', 'buildjs'], function() {
 // });
 
 gulp.task('default', ['buildcss', 'buildjs_settings', 'buildjs']);
+
+var germansynonyms = require('germansynonyms');
+germansynonyms.createDb();

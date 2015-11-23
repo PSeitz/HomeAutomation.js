@@ -236,19 +236,19 @@ exports.commandApi = function(command){
         if (command.action == "turnon") {
             
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": true, "bri": 254}, colors);
-            return lamps.length+ "Lampen, genauer gesagt: "+getNames(lamps)+ "  anmachen.";
+            return lamps.length+ " Lampen : "+getNames(lamps)+ "  anschalten.";
         }
         if (command.action == "turnoff") {
             alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": false});
-            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  ausknipsen.";
+            return lamps.length+" Lampen : "+getNames(lamps)+ "  ausknipsen.";
         }
         if (command.action == "decrease") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, -80);
-            return lamps.length+"Lampen, genauer gesagt: "+getNames(lamps)+ "  dunkler machen.";
+            return lamps.length+" Lampen : "+getNames(lamps)+ "  dunkler machen.";
         }
         if (command.action == "increase") {
             alterLampsWithAction(alterBrightnessOfLamp, lamps, 80);
-            return getNames(lamps)+ "  noch heller gemacht. Supiii - juhu";
+            return getNames(lamps)+ " noch heller gemacht. Supiii - juhu";
         }
 
     }

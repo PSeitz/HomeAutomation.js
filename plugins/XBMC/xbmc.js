@@ -7,7 +7,7 @@ var cachedData;
 function getPostOptions(post_data_string, targetIP) {
     var post_options = {
         host: targetIP,
-        port: '8080',
+        port: '80',
         path: '/jsonrpc',
         method: 'POST',
         headers: {

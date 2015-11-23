@@ -7,8 +7,6 @@ var levenshtein = require('fast-levenshtein');
 var _ = require('lodash');
 var germansynonyms = require('germansynonyms');
 
-germansynonyms.createDb();
-
 for (var i = 0; i < config.length; i++) {
     for (var j = 0; j < config[i].match.length; j++) {
         config[i].match[j] = config[i].match[j].toLowerCase();
@@ -143,6 +141,7 @@ service.advancedMeaningRecognition = function(speech){
 
     if (say) {
         germansynonyms.getRandomSynonymSentence(say).then(function (result) {
+            console.log("Saying:"+ result);
             say_service.say(result);
         })
         // say_service.say(say); // :)
