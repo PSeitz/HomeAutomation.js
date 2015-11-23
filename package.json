@@ -29,7 +29,7 @@
     "fast-levenshtein": "^1.0.6",
     "germansynonyms": "^2.0.4",
     "gulp-purifycss": "^0.2.0",
-    "harmonyhubjs-client": "^1.1.3",
+    "harmonyhubjs-client": "git://github.com/PSeitz/harmonyhubjs-client",
     "jison": "^0.4.15",
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
