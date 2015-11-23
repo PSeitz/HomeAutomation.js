@@ -1,7 +1,6 @@
 var service = {};
 var _=require('lodash');
 var levenshtein = require('fast-levenshtein');
-var germansynonyms = require('germansynonyms');
 // var cld = require('cld');
 
 var configLoader = require('./configloader');
