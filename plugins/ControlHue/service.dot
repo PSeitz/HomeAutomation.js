@@ -1,4 +1,4 @@
-<a onclick="sendRequest('{{=it.service_id}}')" class="tile {{=it.color}} tile-sqr tile-lg tile-pink ripple-effect" href="#">
+<a onclick="sendRequest('{{=it.service_id}}')" class="tile {{=it.color}} ripple-effect" href="#">
     <span class="content-wrapper">
       <span class="tile-content">
         <span class="tile-holder tile-holder-sm">
