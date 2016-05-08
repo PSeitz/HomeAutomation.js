@@ -1,5 +1,5 @@
 
-var colors = ["tile-pink","tile-purple","tile-cyan","tile-amber","light-blue","tile-red","tile-indigo","deep-orange","light-green"];
+var colors = ["tile-pink","tile-purple","tile-cyan","tile-amber","tile-light-blue","tile-red","tile-indigo","tile-deep-orange","tile-light-green"];
 
 var index = 0;
 function getNext(){

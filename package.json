@@ -37,6 +37,7 @@
     "purifycss": "git://github.com/PSeitz/purifycss",
     "snowball-german": "^1.0.0",
     "static-favicon": "~1.0.0",
+    "v8flags": "^2.0.11",
     "wake_on_lan": "0.0.4",
     "ws": "~0.7.1",
     "yamaha-nodejs": "*"

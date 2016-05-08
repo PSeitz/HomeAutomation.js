@@ -109,7 +109,7 @@ var allServices = plugins.getAllServices();
 allServices.forEach(function (element, index, array) {
     // console.log(element.service_id);
     app.get("/"+element.service_id, function(req, res) {
-        res.send('hehehe!');
+        res.send('service activated');
         if (element.action) element.action();
     });
 });
@@ -117,11 +117,13 @@ allServices.forEach(function (element, index, array) {
 //Plugin Service Lists
 var allPlugins = plugins.getAll();
 allPlugins.forEach(function (element, index, array) {
+    // var pluginNoSpace = element.plugin_name.replace(/\s/g, '');
     app.get('/'+element.plugin_name, function(req, res) {
-        res.send(renderDotTemplate("settings", {
+        res.send(renderDotTemplate("main", {
             services: element.services,
             plugins: allPlugins
         }));
+
     });
 });
 

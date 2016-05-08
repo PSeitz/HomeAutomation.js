@@ -25,7 +25,7 @@ XBMC:
     ip: ['192.168.0.41', '192.168.0.21']
     actions:
         Random FamilyGuy: "Family Guy"
-Harmony Hub: 
+HarmonyHub: 
     ip: '192.168.0.32'
     devices: ["Fernseher"]
     targets: 
@@ -99,8 +99,6 @@ Devices:
     Nas:
         location: Arbeitszimmer
         mac: 'bc:5f:f4:cd:e0:3b'
-    Fernseher:
-        location: Wohnzimmer 
     WZ Links:
         location: Wohnzimmer 
     WZ Rechts:

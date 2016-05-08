@@ -7,6 +7,7 @@ var configLoader = require('./configloader');
 
 var pluginsFolder = './plugins';
 var dot = require("dot");
+var color = require('./material-colors');
 
 function validatePlugin(plugin, pluginFolder){
     try {
@@ -158,6 +159,7 @@ service.getAllServices = function () {
             pluginservice.service_id = generateServiceId(pluginservice.plugin_name,pluginservice.name);
             pluginservice.homescreen = sorting.getPositionForServiceId(pluginservice.service_id);
             pluginservice.plugin = allPlugins[i];
+            pluginservice.color = color.getNext(pluginservice.plugin_name);
         }
         allServices = _.union(allServices, pluginservices);
 

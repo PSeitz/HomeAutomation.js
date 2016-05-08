@@ -1,9 +1,9 @@
 var harmony = require('harmonyhubjs-client');
 
-var config = require('../../configloader').get("Harmony Hub");
+var config = require('../../configloader').get("HarmonyHub");
 
 exports.getName = function(){
-    return "Harmony Hub";
+    return "HarmonyHub";
 };
 
 function turnOn(activityName) {

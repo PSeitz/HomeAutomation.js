@@ -1,16 +1,26 @@
 
-    <div class="list">
+<div class="dashboard" style="margin: 0 auto;">
+    <div class="dashboardcontent display-animation">
     {{~it.services :service:index}}
         
 
         {{? service.plugin.templates && service.plugin.templates.service}}
             {{=service.plugin.templates.service(service)}}
         {{??}}
-            <a onclick="sendRequest('{{=service.service_id}}')" href="#" class="item selectable">
-                {{=service.name}}
-            </a>
+
+            <a onclick="sendRequest('{{=service.service_id}}')" class="tile {{=service.color}} tile-lg tile-pink ripple-effect" href="#">
+                <span class="content-wrapper">
+                  <span class="tile-content">
+                    <span class="tile-holder tile-holder-sm">
+                      <span class="title">{{=service.name}}</span>
+                    </span>
+                  </span>      
+                </span>
+             </a>
+
         {{?}}
 
 
     {{~}}
     </div>
+</div>

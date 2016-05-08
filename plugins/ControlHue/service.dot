@@ -1,6 +1,12 @@
-<a onclick="sendRequest('{{=it.service_id}}')" href="#" class="item selectable">
-    {{=it.name}} <span id="{{=it.service_id}}_Status"></span>
-</a>
+<a onclick="sendRequest('{{=it.service_id}}')" class="tile {{=it.color}} tile-sqr tile-lg tile-pink ripple-effect" href="#">
+    <span class="content-wrapper">
+      <span class="tile-content">
+        <span class="tile-holder tile-holder-sm">
+          <span class="title">{{=it.name}}</span>
+        </span>
+      </span>      
+    </span>
+ </a>
 
 <script>
     
