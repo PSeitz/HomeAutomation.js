@@ -6,21 +6,21 @@ Lights:
         - Licht
         - Lichter
         - Helligkeit
-    devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
+    devices: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "Flur 2", "SZ I", "AZ Vorne", "AZ Hinten", "AZ Oben"]
     services:
         Alle Aus: []
-        Alle An: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "SZ I", "SZ O 1", "AZ Vorne", "AZ Hinten"]
-        Schlafzimmer: ["SZ I", "SZ O 1"]
-        Arbeitszimmer: [ "AZ Vorne", "AZ Hinten"]
+        Alle An: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links", "Flur", "Flur 2", "SZ I", "AZ Vorne", "AZ Hinten", "AZ Oben"]
+        Schlafzimmer: ["SZ I"]
+        Arbeitszimmer: [ "AZ Vorne", "AZ Hinten", "AZ Oben"]
         Wohnzimmer: ["WZ Links", "WZ Rechts", "WZ Back", "WZ Back Links"]
-        Flur: [ "Flur"]
+        Flur: [ "Flur", "Flur 2"]
     commands: 
         - turnon
         - turnoff
         - increase
         - decrease
 Wol:
-    devices: ["Nas"]
+    devices: ["Nas", "XBMC Wohnzimmer"]
 XBMC: 
     ip: ['192.168.0.41', '192.168.0.21']
     actions:
@@ -96,6 +96,9 @@ Devices:
         location: Wohnzimmer 
     XBMC Schlafzimmer:
         location: Schlafzimmer
+    XBMC Wohnzimmer:
+        location: Wohnzimmer
+        mac: 'bc:5f:f4:84:d7:b7'
     Nas:
         location: Arbeitszimmer
         mac: 'bc:5f:f4:cd:e0:3b'
@@ -109,13 +112,15 @@ Devices:
         location: Wohnzimmer 
     Flur:
         location: Flur 
+    Flur 2:
+        location: Flur 
     SZ I:
-        location: Schlafzimmer 
-    SZ O 1:
         location: Schlafzimmer 
     AZ Vorne:
         location: Arbeitszimmer 
     AZ Hinten:
+        location: Arbeitszimmer 
+    AZ Oben:
         location: Arbeitszimmer 
 Languages: # ISO 639-1
     - de
