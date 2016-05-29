@@ -33,7 +33,7 @@
     "js-yaml": "^3.2.7",
     "lodash": "^3.6.0",
     "morgan": "~1.0.0",
-    "node-hue-api": "^1.0.5",
+    "node-hue-api": "^2.2.0",
     "purifycss": "git://github.com/PSeitz/purifycss",
     "snowball-german": "^1.0.0",
     "static-favicon": "~1.0.0",

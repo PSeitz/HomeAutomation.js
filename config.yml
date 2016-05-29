@@ -132,7 +132,7 @@ SynonymHints:
     turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
                 "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"]
     increase: ["erhöhen", "anheben", "lauter", "hell", "heller"]
-    decrease: ["leiser", "absenken", "reduzieren", "dimmen", "dimme"]
+    decrease: ["leiser", "absenken", "reduzieren", "dimmen", "dimme", "dunkler"]
     fernsehen: ["fernseher", "fernsehen", "tv"]
     licht: ["lichter", "lights"]
     receiver: ["Verstärker"]

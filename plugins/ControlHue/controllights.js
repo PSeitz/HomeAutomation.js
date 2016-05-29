@@ -95,18 +95,18 @@ var only = function(onLamps){
 //     console.log(JSON.stringify(lights, null, 2));
     // for (var i = 0; i < lights.length; i++) {
     //     var light = lights[i];
-    //     alterBrightnessOfLamp(deltaValue, light);
+    //     deltaAlterBrightnessOfLamp(deltaValue, light);
     // }
 
     
 // };
 
-var alterLampsWithAction = function(action, lamps, value, colors){
+var alterLampsWithAction = function(action, lamps, ligthstate, colors){
     var lights = getLightsForName(hueLights, lamps);
     console.log(JSON.stringify(lights, null, 2));
     for (var i = 0; i < lights.length; i++) {
         var light = lights[i];
-        // action(value, light);
+        // action(ligthstate, light);
     }
 
     var colorPos = 0;
@@ -116,12 +116,12 @@ var alterLampsWithAction = function(action, lamps, value, colors){
         if (light) {
             if (colors && colors[0]) {
                 var xycolors = colorToHue.hexStringToXyBri(colors[colorPos]);
-                value.xy = [xycolors.x, xycolors.y];
+                ligthstate.xy = [xycolors.x, xycolors.y];
                 colorPos++; 
                 if(!colors[colorPos]) colorPos = 0;
             }
             
-            action(value, light); 
+            action(ligthstate, light); 
         }
         if (lights.length === 0) {
             clearInterval(interval); 
@@ -143,7 +143,7 @@ function setLightState (lightstate, light) {
 //     });
 // }
 
-function alterBrightnessOfLamp(deltaValue, light){
+function deltaAlterBrightnessOfLamp(deltaValue, light){
     api.lightStatus(light.id, function(err, result) {
         if (err) throw err;
         var newbrightness = result.state.bri + deltaValue;
@@ -156,9 +156,8 @@ function alterBrightnessOfLamp(deltaValue, light){
 function setBrightnessOfLamp(newbrightness, light){
     newbrightness = Math.min(newbrightness, 255);
     newbrightness = Math.max(newbrightness, 0);
-    api.setLightState(light.id, {"bri":newbrightness}, function(err, result) {});
+    api.setLightState(light.id, {"bri":newbrightness, "on": true}, function(err, result) {});
 }
-
 
 exports.getName = function(){
     return "Lights";
@@ -223,35 +222,62 @@ exports.commandApi = function(command){
         }
     }
 
-    if (command.value) {
-        var value = command.value;
-        if (command.valueType === "percent")
-            value = command.value * 255 / 100;
+    var lightstate = {};
 
-        alterLampsWithAction(setBrightnessOfLamp, lamps, value, colors);
+    if (command.action == "turnon") {
+        lightstate.on = true;
+    }
+    if (command.action == "turnoff") {
+        lightstate.on = false;
+    }
 
-        return "Helligkeit der Lampen "+ getNames(lamps)+ " auf " + value+ " stellen";
-    }else{
+    if (command.action == "decrease" || command.action == "increase" && !command.value) {
+        command.value = 80; // 80 is default reduce/increase
+    }
 
-        if (command.action == "turnon") {
+    function cb(state, light){
+        api.lightStatus(light.id, function(err, result) {
+            if (err) throw err;
+
+            lightstate.bri = 254;
+            if (result.state.bri > 15) // reuse current brightness
+                lightstate.bri = result.state.bri;
             
-            alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": true, "bri": 254}, colors);
-            return lamps.length+ " Lampen : "+getNames(lamps)+ "  anschalten.";
-        }
-        if (command.action == "turnoff") {
-            alterLampsWithAction(setLightState, lamps, {"transitiontime": 0, "on": false});
-            return lamps.length+" Lampen : "+getNames(lamps)+ "  ausknipsen.";
-        }
-        if (command.action == "decrease") {
-            alterLampsWithAction(alterBrightnessOfLamp, lamps, -80);
-            return lamps.length+" Lampen : "+getNames(lamps)+ "  dunkler machen.";
-        }
-        if (command.action == "increase") {
-            alterLampsWithAction(alterBrightnessOfLamp, lamps, 80);
-            return getNames(lamps)+ " noch heller gemacht. Supiii - juhu";
-        }
+            if (command.value) {
+                var newbrightness = command.value;
+                if (command.valueType === "percent")
+                    newbrightness = command.value * 255 / 100;
+
+                if (command.action == "decrease" || command.action == "increase") {
+                    var delta = command.value;
+                    if (command.valueType === "percent")
+                        delta = result.state.bri * (command.value / 100);
+
+                    if (command.action == "decrease") delta = delta * -1;
+                    newbrightness = result.state.bri + delta;
+                }
+
+                newbrightness = Math.min(newbrightness, 255);
+                newbrightness = Math.max(newbrightness, 0);
+                state.bri = newbrightness;
+                state.on = true;
+            }
+
+            if (!result.state.on || command.action == "turnoff") 
+                state.transitiontime = 0;
+
+            api.setLightState(light.id, state, function(err, result) {
+                console.log('light set');
+            });
+        });
 
     }
+
+    alterLampsWithAction(cb, lamps, lightstate, colors);
+
+    // alterLampsWithAction(setLightState, lamps, lightstate, colors);
+    return "Blub"
+
 
 
 };
