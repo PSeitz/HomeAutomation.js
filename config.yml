@@ -128,11 +128,11 @@ Languages: # ISO 639-1
     - ja
 SynonymHints:
     play: ["abspielen", "spielen"]
-    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen", "setzen", "umschalten", "auf", "schalten"]
+    turnon: ["an", "einschalten", "anschalten", "aktivieren", "anknipsen", "anmachen", "setzen", "umschalten", "auf", "schalten","los","feuer"]
     turnoff: ["aus" , "abschalten", "ausmachen", "ausschalten", "turn off", "ausknipsen", "eliminieren",
                 "liquidieren", "neutralisieren", "terminieren", "スイッチを切る"]
-    increase: ["erhöhen", "anheben", "lauter", "hell", "heller"]
-    decrease: ["leiser", "absenken", "reduzieren", "dimmen", "dimme", "dunkler"]
-    fernsehen: ["fernseher", "fernsehen", "tv"]
+    increase: ["erhöhen", "anheben", "lauter", "hell", "heller","mehr"]
+    decrease: ["leiser", "absenken", "reduzieren", "dimmen", "dimme", "dunkler","weniger"]
+    fernsehen: ["fernseher", "fernsehen", "tv","glotze","flimmerkiste"]
     licht: ["lichter", "lights"]
     receiver: ["Verstärker"]
