@@ -39,7 +39,7 @@
     "static-favicon": "~1.0.0",
     "v8flags": "^2.0.11",
     "wake_on_lan": "0.0.4",
-    "ws": "~0.7.1",
+    "ws": "~6.1.3",
     "yamaha-nodejs": "*"
   },
   "author": "Pascal Seitz <pascal.seitz@gmail.com>",
