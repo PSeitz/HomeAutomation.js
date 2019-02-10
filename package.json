@@ -22,7 +22,7 @@
     "body-parser": "^1.12.2",
     "chai": "^3.4.0",
     "cookie-parser": "~1.0.1",
-    "debug": "~2.6.9",
+    "debug": "~4.1.1",
     "dot": "~1.0.3",
     "express": "~4.16.4",
     "express-ws": "git://github.com/PSeitz/express-ws",
