@@ -32,7 +32,7 @@
     "jison": "^0.4.15",
     "js-yaml": "^3.2.7",
     "lodash": "4.17.5",
-    "morgan": "~1.0.0",
+    "morgan": "~1.9.1",
     "node-hue-api": "^2.2.0",
     "purifycss": "git://github.com/PSeitz/purifycss",
     "snowball-german": "^1.0.0",
