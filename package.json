@@ -23,7 +23,7 @@
     "chai": "^3.4.0",
     "cookie-parser": "~1.0.1",
     "debug": "~4.1.1",
-    "dot": "~1.0.3",
+    "dot": "~1.1.2",
     "express": "~4.16.4",
     "express-ws": "git://github.com/PSeitz/express-ws",
     "fast-levenshtein": "^2.0.6",
